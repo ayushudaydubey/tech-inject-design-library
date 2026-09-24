@@ -1,0 +1,46 @@
+{
+  "name": "tech-inject-ui",
+  "version": "1.0.0",
+  "description": "Official CLI installer for Tech Inject Design Library components",
+  "main": "dist/cli.js",
+  "types": "dist/cli.d.ts",
+  "bin": {
+    "tech-inject-ui": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "type-check": "tsc --noEmit",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [
+    "tech-inject",
+    "cli",
+    "installer",
+    "react",
+    "components",
+    "design-system"
+  ],
+  "author": "Tech Inject Team",
+  "license": "ISC",
+  "dependencies": {
+    "clsx": "^2.1.0",
+    "commander": "^13.1.0",
+    "lucide-react": "^0.300.0",
+    "picocolors": "^1.1.1",
+    "semver": "^7.8.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "@types/semver": "^7.8.0",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
