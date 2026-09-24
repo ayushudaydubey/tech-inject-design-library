@@ -9,11 +9,34 @@ import adminRoutes from "./src/routes/adminRoutes";
 import { errorHandler, notFoundHandler } from "./src/middleware/errorHandler";
 
 export const app = express();
-const PORT = process.env.PORT
+const PORT = process.env.PORT ||5000;
+
 // Global middleware
+const normalizeUrl = (url?: string): string | null => {
+  if (!url) return null;
+  return url.trim().replace(/\/+$/, "");
+};
+
+// Read allowed origins directly from environment variables (.env)
+const envOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_URL,
+  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(",") : []),
+]
+  .map(normalizeUrl)
+  .filter((url): url is string => Boolean(url));
+
+const allowedOrigins = Array.from(new Set(envOrigins));
+
 app.use(
   cors({
-    origin: true,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

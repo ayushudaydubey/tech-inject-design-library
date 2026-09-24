@@ -3,14 +3,14 @@ export const siteConfig = {
   shortName: "Tech Inject UI",
   description:
     "Enterprise design system and modular component catalogue for high-velocity engineering teams.",
-  url: "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000",
   navItems: [
     { label: "Catalogue", href: "/components" },
     { label: "Get Started", href: "/get-started" },
   ],
   links: {
     github: "https://github.com",
-    admin: "http://localhost:3000",
+    admin: process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001",
     docs: "/get-started",
   },
   cli: {

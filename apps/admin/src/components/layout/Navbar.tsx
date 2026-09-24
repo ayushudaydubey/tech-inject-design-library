@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
       <div className="flex items-center gap-4">
         {/* Public Catalogue Link */}
         <a
-          href="http://localhost:3000"
+          href={process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000"}
           target="_blank"
           rel="noopener noreferrer"
           className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
