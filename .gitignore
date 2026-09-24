@@ -43,7 +43,7 @@ Thumbs.db
 
 # Local test projects
 cli-test/
-component-preview/
+/component-preview/
 
 # Temporary files
 *.tmp
