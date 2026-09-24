@@ -28,16 +28,29 @@ const envOrigins = [
 
 const allowedOrigins = Array.from(new Set(envOrigins));
 
+const isAllowedOrigin = (origin: string): boolean => {
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+  // Automatically support all Vercel deployment URLs for this project (production & preview)
+  if (/^https:\/\/tech-inject-design-library.*\.vercel\.app$/.test(origin)) {
+    return true;
+  }
+  return false;
+};
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || isAllowedOrigin(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(null, false);
       }
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "X-Requested-With"],
   })
 );
 app.use(express.json({ limit: "10mb" }));
