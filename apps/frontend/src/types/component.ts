@@ -45,7 +45,11 @@ export interface ComponentPreview {
   version: string;
   previewData: string;
   primarySource: ComponentFile | null;
-  themeFiles: ComponentFile[];
+  sourceFiles?: ComponentFile[];
+  supportingFiles?: ComponentFile[];
+  themeFiles?: ComponentFile[];
+  declaredDependencies?: Record<string, string>;
+  propsDocumentation?: string;
 }
 
 export interface ComponentSource {

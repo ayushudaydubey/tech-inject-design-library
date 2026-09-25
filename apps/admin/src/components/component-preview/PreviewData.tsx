@@ -11,7 +11,7 @@ export const PreviewData: React.FC<PreviewDataProps> = ({
 }) => {
   if (!previewData || previewData.trim() === "") {
     return (
-      <div className={`p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-xs text-slate-400 italic text-center ${className}`}>
+      <div className={`p-4 rounded-xl border border-zinc-800 bg-zinc-900 text-xs text-zinc-500 italic text-center ${className}`}>
         No preview fixture data configured.
       </div>
     );
@@ -27,16 +27,16 @@ export const PreviewData: React.FC<PreviewDataProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-3 ${className}`}
+      className={`rounded-xl border border-zinc-800 bg-zinc-850 p-6 space-y-3 ${className}`}
     >
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+        <h3 className="text-sm font-semibold text-zinc-100">
           Fixture Data Payload
         </h3>
-        <span className="text-[11px] font-mono text-slate-400">JSON</span>
+        <span className="text-[11px] font-mono text-zinc-400">JSON</span>
       </div>
 
-      <pre className="p-4 rounded-xl bg-slate-950 text-slate-200 font-mono text-xs overflow-auto max-h-60 leading-relaxed border border-slate-800">
+      <pre className="p-4 rounded-xl bg-zinc-900 text-zinc-200 font-mono text-xs overflow-auto max-h-60 leading-relaxed border border-zinc-800">
         <code>{formatted}</code>
       </pre>
     </div>

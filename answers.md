@@ -33,6 +33,8 @@ Executing uploaded code or writing files directly to web-accessible static direc
 
 We challenged the initial AI assumption of placing the `isPremium` flag directly into the JWT payload and trusting it on protected routes. Because an administrator must be able to revoke premium access at any time, trusting a stateless JWT would allow revoked users to access premium code until token expiration (up to 15 minutes or 7 days). We corrected this by requiring `authenticate` to query the live MongoDB user record on every access check, verifying that subsequent requests fail immediately upon revocation.
 
+To verify that copied code, the install command, and the agent prompt actually worked in real consumer environments, we initialized a clean standalone React + TypeScript project with strict configuration (`cli-test/`). We executed the CLI commands (`npx tech-inject-ui add sales-metric-card` and `npx tech-inject-ui add data-table --token <token>`), verifying that self-contained component source, types, and CSS tokens were created under `src/components/`, verified dependencies were installed, compiled without errors using `tsc --noEmit`, and confirmed the component rendered successfully outside the catalogue.
+
 ---
 
 ### 6. Production Ownership

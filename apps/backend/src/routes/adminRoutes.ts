@@ -11,6 +11,7 @@ router.use(authenticate, requireAdmin);
 // Component drafting & publishing lifecycle
 router.get("/components", AdminController.listComponents);
 router.post("/components", AdminController.createDraft);
+router.post("/components/validate", AdminController.validateDraftPayload);
 router.get("/components/:id", AdminController.getComponent);
 router.patch("/components/:id", AdminController.updateComponent);
 router.post(
@@ -23,6 +24,7 @@ router.post("/components/:id/validate", AdminController.validateDraft);
 router.post("/components/:id/preview", AdminController.previewDraft);
 router.post("/components/:id/publish", AdminController.publishComponent);
 router.post("/components/:id/unpublish", AdminController.unpublishComponent);
+router.delete("/components/:id", AdminController.deleteComponent);
 
 // Customer premium management
 router.get("/customers", AdminController.listCustomers);

@@ -49,10 +49,10 @@ export function PremiumAccessButton({ customer }: PremiumAccessButtonProps) {
             setShowConfirm(true);
           }}
           disabled={isPending || !customerId}
-          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 shadow-sm disabled:opacity-50 ${
+          className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors inline-flex items-center gap-1.5 disabled:opacity-50 ${
             isPremium
-              ? "bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 focus:ring-2 focus:ring-rose-500"
-              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 focus:ring-2 focus:ring-emerald-500"
+              ? "bg-zinc-850 text-zinc-300 hover:text-zinc-100 hover:bg-zinc-750 border border-zinc-700"
+              : "bg-zinc-850 text-green-300 hover:text-green-200 hover:bg-zinc-750 border border-zinc-700"
           }`}
         >
           {isPending ? (
@@ -85,7 +85,7 @@ export function PremiumAccessButton({ customer }: PremiumAccessButtonProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth={1.75}
                 d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
               />
             </svg>
@@ -99,7 +99,7 @@ export function PremiumAccessButton({ customer }: PremiumAccessButtonProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth={1.75}
                 d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
               />
             </svg>
@@ -108,7 +108,7 @@ export function PremiumAccessButton({ customer }: PremiumAccessButtonProps) {
         </button>
 
         {error && (
-          <span className="text-[11px] text-rose-400 font-medium">
+          <span className="text-[11px] text-red-400 font-medium">
             {error}
           </span>
         )}

@@ -22,29 +22,29 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 }) => {
   return (
     <div
-      className={`rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center max-w-lg mx-auto ${className}`}
+      className={`rounded-lg border border-dashed border-zinc-700/80 bg-zinc-900/40 p-10 text-center max-w-md mx-auto ${className}`}
     >
-      <div className="mx-auto w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800/80 flex items-center justify-center text-slate-500 dark:text-slate-400 mb-4">
+      <div className="mx-auto w-10 h-10 rounded-md bg-zinc-800 flex items-center justify-center text-zinc-400 mb-3 border border-zinc-750">
         {icon || (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
           </svg>
         )}
       </div>
 
-      <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+      <h3 className="text-sm font-semibold text-zinc-100">
         {title}
       </h3>
-      <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+      <p className="mt-1 text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
         {description}
       </p>
 
       {(onAction || actionHref) && actionText && (
-        <div className="mt-6">
+        <div className="mt-5">
           {actionHref ? (
             <Link
               href={actionHref}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+              className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-zinc-200 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-md transition-colors"
             >
               {actionText}
             </Link>
@@ -52,7 +52,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             <button
               type="button"
               onClick={onAction}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
+              className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-zinc-200 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-md transition-colors focus:outline-none focus:ring-1 focus:ring-blue-200/50"
             >
               {actionText}
             </button>

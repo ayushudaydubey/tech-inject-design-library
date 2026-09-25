@@ -15,17 +15,23 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter();
   const { data: user, isLoading, isError } = useAdminSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // If not loading and no admin user, redirect to login
     if (!isLoading && (!user || user.role !== "admin" || isError)) {
       router.push("/login");
     }
   }, [user, isLoading, isError, router]);
 
+  if (!mounted) {
+    return null;
+  }
+
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-zinc-900 text-zinc-100">
         <LoadingState title="Authenticating admin session..." />
       </div>
     );
@@ -36,7 +42,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50/60 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+    <div className="min-h-screen flex flex-col bg-zinc-900 text-zinc-100">
       <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex-1 flex w-full">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

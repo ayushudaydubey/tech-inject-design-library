@@ -17,40 +17,44 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-40 h-14 w-full border-b border-zinc-800 bg-zinc-900/95 backdrop-blur-xs">
+      <div className="w-full px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex h-full items-center justify-between">
           {/* Logo & Brand */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5">
             <Link
               href="/"
-              className="flex items-center gap-2.5 font-bold text-slate-900 dark:text-white group focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+              className="flex items-center gap-2.5 font-medium text-zinc-100 group focus:outline-none"
             >
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm group-hover:bg-blue-700 transition-colors">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
+              <div className="w-7 h-7 rounded-md bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-200 font-semibold text-xs transition-colors group-hover:border-zinc-600">
+                TI
               </div>
-              <span className="text-base tracking-tight font-semibold">
-                Tech Inject <span className="text-blue-600 font-normal">UI</span>
+              <span className="text-sm font-semibold tracking-tight text-zinc-100">
+                Tech Inject <span className="text-blue-200 font-normal">UI</span>
+              </span>
+              <span className="hidden sm:inline-block text-[10px] font-mono uppercase text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded border border-zinc-700">
+                Library
               </span>
             </Link>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center gap-1" aria-label="Main Navigation">
-              {siteConfig.navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {siteConfig.navItems.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`px-3 py-1.5 rounded-md text-xs transition-colors ${
+                      active
+                        ? "bg-zinc-800 text-blue-200 font-medium"
+                        : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
 
@@ -60,16 +64,16 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-3">
                 <Link
                   href="/account"
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-700 bg-zinc-800 text-xs font-medium text-zinc-200 hover:bg-zinc-700/80 transition-colors"
                 >
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isPremium ? "bg-amber-500" : "bg-emerald-500"
+                      isPremium ? "bg-amber-400" : "bg-green-400"
                     }`}
                   />
                   <span>{user.name}</span>
                   {isPremium && (
-                    <span className="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-semibold px-1.5 py-0.2 rounded text-[10px]">
+                    <span className="bg-amber-400/10 text-amber-300 border border-amber-400/20 font-medium px-1.5 py-0.2 rounded text-[10px]">
                       PRO
                     </span>
                   )}
@@ -79,13 +83,13 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="px-3.5 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/components"
-                  className="px-3.5 py-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
+                  className="px-3.5 py-1.5 text-xs font-medium text-zinc-900 bg-zinc-100 hover:bg-zinc-200 rounded-md transition-colors"
                 >
                   Browse Catalogue
                 </Link>
@@ -98,16 +102,16 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-1.5 rounded-md text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 focus:outline-none"
               aria-label="Toggle mobile navigation menu"
               aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               )}
@@ -118,17 +122,17 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 pt-2 pb-6 space-y-3">
+        <div className="md:hidden border-b border-zinc-800 bg-zinc-900 px-4 pt-2 pb-5 space-y-2.5">
           <nav className="flex flex-col space-y-1">
             {siteConfig.navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-3 py-2 rounded-lg text-base font-medium ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium ${
                   isActive(item.href)
-                    ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
+                    ? "bg-zinc-800 text-blue-200"
+                    : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60"
                 }`}
               >
                 {item.label}
@@ -136,16 +140,16 @@ export const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="pt-3 border-t border-zinc-800">
             {isAuthenticated && user ? (
               <div className="space-y-2">
-                <div className="text-sm font-medium text-slate-800 dark:text-slate-200 px-3">
-                  Signed in as <span className="font-bold">{user.email}</span>
+                <div className="text-xs text-zinc-300 px-2">
+                  Signed in as <span className="font-semibold text-zinc-100">{user.email}</span>
                 </div>
                 <Link
                   href="/account"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center px-4 py-2 text-sm font-medium text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-lg"
+                  className="block w-full text-center px-3 py-1.5 text-xs font-medium text-zinc-200 bg-zinc-800 rounded-md border border-zinc-700"
                 >
                   Manage Account
                 </Link>
@@ -155,14 +159,14 @@ export const Navbar: React.FC = () => {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-lg"
+                  className="w-full text-center px-3 py-1.5 text-xs font-medium text-zinc-300 border border-zinc-700 rounded-md"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/components"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg"
+                  className="w-full text-center px-3 py-1.5 text-xs font-medium text-zinc-900 bg-zinc-100 rounded-md"
                 >
                   Browse Catalogue
                 </Link>

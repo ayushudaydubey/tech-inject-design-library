@@ -27,12 +27,12 @@ export const ComponentGrid: React.FC<ComponentGridProps> = ({
 
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${className}`}
+      className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4.5 lg:gap-5 2xl:gap-6 ${className}`}
       role="region"
       aria-label="Component Catalogue Grid"
     >
-      {components.map((component) => (
-        <ComponentCard key={component.id} component={component} />
+      {components.map((component, i) => (
+        <ComponentCard key={component.id} component={component} index={i} />
       ))}
     </div>
   );

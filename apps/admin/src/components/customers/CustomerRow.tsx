@@ -26,32 +26,32 @@ export function CustomerRow({ customer }: CustomerRowProps) {
     : customer.email.slice(0, 2).toUpperCase();
 
   return (
-    <tr className="border-b border-zinc-800 hover:bg-zinc-800/40 transition-colors">
-      <td className="py-4 px-6">
+    <tr className="hover:bg-zinc-750/50 transition-colors">
+      <td className="py-3 px-5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm border border-indigo-400/30">
+          <div className="w-8 h-8 rounded-full bg-zinc-750 text-zinc-200 font-semibold text-xs flex items-center justify-center shrink-0 border border-zinc-700">
             {initials}
           </div>
           <div>
-            <div className="font-medium text-sm text-zinc-100">
+            <div className="font-medium text-xs text-zinc-100">
               {customer.name || "Customer"}
             </div>
-            <div className="text-xs text-zinc-400 font-mono">
+            <div className="text-[11px] text-zinc-400 font-mono">
               {customer.email}
             </div>
           </div>
         </div>
       </td>
 
-      <td className="py-4 px-6">
+      <td className="py-3 px-5">
         <CustomerStatusBadge isPremium={customer.isPremium} />
       </td>
 
-      <td className="py-4 px-6 text-xs text-zinc-400">
+      <td className="py-3 px-5 text-xs text-zinc-400">
         {memberSince}
       </td>
 
-      <td className="py-4 px-6 text-right">
+      <td className="py-3 px-5 text-right">
         <PremiumAccessButton customer={customer} />
       </td>
     </tr>

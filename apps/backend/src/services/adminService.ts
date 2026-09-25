@@ -3,6 +3,12 @@ import { Component, IComponentDocument, IComponentFile } from "../models/Compone
 import { User, SafeUser } from "../models/User";
 import { slugify } from "../utils/slug";
 import { ApiError } from "../middleware/errorHandler";
+import {
+  validateComponentPayload,
+  ComponentValidationResult,
+  DetailedValidationError,
+  ValidationCheck,
+} from "../utils/componentValidator";
 
 export interface CreateComponentInput {
   name: string;
@@ -15,16 +21,36 @@ export interface CreateComponentInput {
   usageDocumentation?: string;
   declaredDependencies?: Record<string, string>;
   previewData?: string;
-  sourceFiles?: IComponentFile[];
-  supportingFiles?: IComponentFile[];
-  themeFiles?: IComponentFile[];
+  sourceFiles?: Partial<IComponentFile>[];
+  supportingFiles?: Partial<IComponentFile>[];
+  themeFiles?: Partial<IComponentFile>[];
   installInfo?: { packageManagerCommand?: string; notes?: string };
   agentPrompt?: string;
 }
 
-export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
+export type ValidationResult = ComponentValidationResult;
+
+function normalizeFileItem(file: Partial<IComponentFile>): IComponentFile {
+  const filePath = (file.path || file.filename || "file.tsx").trim().replace(/\\/g, "/");
+  const ext = filePath.split(".").pop()?.toLowerCase() || file.fileType || "txt";
+  const languageMap: Record<string, string> = {
+    ts: "typescript",
+    tsx: "typescriptreact",
+    js: "javascript",
+    jsx: "javascriptreact",
+    css: "css",
+    scss: "scss",
+    json: "json",
+    md: "markdown",
+  };
+
+  return {
+    filename: filePath,
+    path: filePath,
+    content: file.content || "",
+    fileType: ext,
+    language: file.language || languageMap[ext] || "plaintext",
+  };
 }
 
 export class AdminService {
@@ -75,9 +101,9 @@ export class AdminService {
       status: "draft",
       version: data.version || "1.0.0",
       accessType: data.accessType || "free",
-      sourceFiles: data.sourceFiles || [],
-      supportingFiles: data.supportingFiles || [],
-      themeFiles: data.themeFiles || [],
+      sourceFiles: (data.sourceFiles || []).map(normalizeFileItem),
+      supportingFiles: (data.supportingFiles || []).map(normalizeFileItem),
+      themeFiles: (data.themeFiles || []).map(normalizeFileItem),
       createdBy: new Types.ObjectId(adminUserId),
       publishedAt: null,
     });
@@ -129,9 +155,15 @@ export class AdminService {
       };
     }
     if (data.agentPrompt !== undefined) component.agentPrompt = data.agentPrompt;
-    if (data.sourceFiles !== undefined) component.sourceFiles = data.sourceFiles;
-    if (data.supportingFiles !== undefined) component.supportingFiles = data.supportingFiles;
-    if (data.themeFiles !== undefined) component.themeFiles = data.themeFiles;
+    if (data.sourceFiles !== undefined) {
+      component.sourceFiles = data.sourceFiles.map(normalizeFileItem);
+    }
+    if (data.supportingFiles !== undefined) {
+      component.supportingFiles = data.supportingFiles.map(normalizeFileItem);
+    }
+    if (data.themeFiles !== undefined) {
+      component.themeFiles = data.themeFiles.map(normalizeFileItem);
+    }
 
     await component.save();
     return component;
@@ -149,27 +181,22 @@ export class AdminService {
     for (const file of files) {
       const filename = file.originalname;
       const content = file.buffer.toString("utf-8");
-      const ext = filename.split(".").pop()?.toLowerCase() || "txt";
+      const fileObj = normalizeFileItem({ filename, content });
+      const ext = fileObj.fileType;
 
-      const fileObj: IComponentFile = {
-        filename,
-        content,
-        fileType: ext,
-      };
-
-      if (ext === "css") {
+      if (ext === "css" || ext === "scss") {
         // Replace if exists, or append to theme files
-        const idx = component.themeFiles.findIndex((f) => f.filename === filename);
+        const idx = component.themeFiles.findIndex((f) => f.filename === filename || f.path === filename);
         if (idx >= 0) component.themeFiles[idx] = fileObj;
         else component.themeFiles.push(fileObj);
       } else if (filename.endsWith(".utils.ts") || filename.endsWith(".types.ts") || filename === "types.ts") {
         // Supporting helper files
-        const idx = component.supportingFiles.findIndex((f) => f.filename === filename);
+        const idx = component.supportingFiles.findIndex((f) => f.filename === filename || f.path === filename);
         if (idx >= 0) component.supportingFiles[idx] = fileObj;
         else component.supportingFiles.push(fileObj);
       } else {
         // Main component source files
-        const idx = component.sourceFiles.findIndex((f) => f.filename === filename);
+        const idx = component.sourceFiles.findIndex((f) => f.filename === filename || f.path === filename);
         if (idx >= 0) component.sourceFiles[idx] = fileObj;
         else component.sourceFiles.push(fileObj);
       }
@@ -182,55 +209,54 @@ export class AdminService {
   /**
    * Validates if a draft meets publishing requirements
    */
-  static validateComponent(component: IComponentDocument): ValidationResult {
-    const errors: string[] = [];
-
-    if (!component.name || component.name.trim() === "") {
-      errors.push("Component name is required.");
-    }
-    if (!component.slug || component.slug.trim() === "") {
-      errors.push("Component slug is required.");
-    }
-    if (!component.description || component.description.trim() === "") {
-      errors.push("Component description is required.");
-    }
-    if (!component.category || component.category.trim() === "") {
-      errors.push("Component category is required.");
-    }
-    if (!component.version || component.version.trim() === "") {
-      errors.push("Component version is required.");
-    }
-    if (!component.sourceFiles || component.sourceFiles.length === 0) {
-      errors.push("At least one source file (.tsx, .ts, .jsx, .js) is required before publishing.");
-    }
-
-    // Verify dependencies is a valid key-value object
-    if (
-      component.declaredDependencies &&
-      typeof component.declaredDependencies === "object" &&
-      !Array.isArray(component.declaredDependencies)
-    ) {
-      for (const [pkg, ver] of Object.entries(component.declaredDependencies)) {
-        if (typeof ver !== "string") {
-          errors.push(`Invalid dependency version for package '${pkg}'. Must be a string.`);
-        }
-      }
-    } else if (component.declaredDependencies) {
-      errors.push("Declared dependencies must be a key-value record (e.g. { 'react': '^18.0.0' }).");
-    }
-
-    return {
-      isValid: errors.length === 0,
-      errors,
-    };
+  static validateComponent(component: IComponentDocument | Partial<CreateComponentInput>): ValidationResult {
+    return validateComponentPayload({
+      name: component.name,
+      slug: component.slug,
+      description: component.description,
+      category: component.category,
+      version: component.version,
+      accessType: component.accessType,
+      sourceFiles: component.sourceFiles,
+      supportingFiles: component.supportingFiles,
+      themeFiles: component.themeFiles,
+      declaredDependencies: component.declaredDependencies,
+      previewData: component.previewData,
+    });
   }
 
   /**
-   * Validates draft readiness by ID
+   * Validates draft readiness by ID (with optional override payload from client)
    */
-  static async validateDraft(id: string): Promise<ValidationResult> {
+  static async validateDraft(
+    id: string,
+    overridePayload?: Partial<CreateComponentInput>
+  ): Promise<ValidationResult> {
     const component = await this.getComponentById(id);
-    return this.validateComponent(component);
+    if (!overridePayload) {
+      return this.validateComponent(component);
+    }
+    const merged = {
+      name: overridePayload.name !== undefined ? overridePayload.name : component.name,
+      slug: overridePayload.slug !== undefined ? overridePayload.slug : component.slug,
+      description: overridePayload.description !== undefined ? overridePayload.description : component.description,
+      category: overridePayload.category !== undefined ? overridePayload.category : component.category,
+      version: overridePayload.version !== undefined ? overridePayload.version : component.version,
+      accessType: overridePayload.accessType !== undefined ? overridePayload.accessType : component.accessType,
+      sourceFiles: overridePayload.sourceFiles !== undefined ? overridePayload.sourceFiles : component.sourceFiles,
+      supportingFiles: overridePayload.supportingFiles !== undefined ? overridePayload.supportingFiles : component.supportingFiles,
+      themeFiles: overridePayload.themeFiles !== undefined ? overridePayload.themeFiles : component.themeFiles,
+      declaredDependencies: overridePayload.declaredDependencies !== undefined ? overridePayload.declaredDependencies : component.declaredDependencies,
+      previewData: overridePayload.previewData !== undefined ? overridePayload.previewData : component.previewData,
+    };
+    return this.validateComponent(merged);
+  }
+
+  /**
+   * Validates in-memory draft payload directly before initial save
+   */
+  static validateDraftPayload(payload: Partial<CreateComponentInput>): ValidationResult {
+    return this.validateComponent(payload);
   }
 
   /**
@@ -261,6 +287,14 @@ export class AdminService {
     await component.save();
 
     return component;
+  }
+
+  /**
+   * Permanently deletes a component (draft or published)
+   */
+  static async deleteComponent(id: string): Promise<void> {
+    const component = await this.getComponentById(id);
+    await component.deleteOne();
   }
 
   /**

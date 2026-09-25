@@ -1,9 +1,18 @@
+"use client";
+
 import React from "react";
 
 export interface ComponentPropsProps {
   propsDocumentation?: string;
   declaredDependencies?: Record<string, string>;
   className?: string;
+}
+
+interface TableRow {
+  prop: string;
+  type: string;
+  defaultVal: string;
+  description: string;
 }
 
 export const ComponentProps: React.FC<ComponentPropsProps> = ({
@@ -20,87 +29,163 @@ export const ComponentProps: React.FC<ComponentPropsProps> = ({
     return null;
   }
 
-  // Parse lines of propsDocumentation if in markdown list format
-  const lines = propsDocumentation ? propsDocumentation.split("\n") : [];
+  const rawText = propsDocumentation || "";
+  const lines = rawText.split("\n");
+
+  const tableRows: TableRow[] = [];
+  const nonTableLines: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    if (line.startsWith("|") && line.endsWith("|")) {
+      const cells = line
+        .split("|")
+        .map((c) => c.trim())
+        .filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+
+      if (
+        cells.every((c) => /^[-: ]+$/.test(c)) ||
+        (cells[0] && cells[0].toLowerCase() === "prop")
+      ) {
+        continue;
+      }
+
+      if (cells.length >= 3) {
+        tableRows.push({
+          prop: cells[0].replace(/`/g, ""),
+          type: cells[1].replace(/`/g, ""),
+          defaultVal: cells.length >= 4 ? cells[2].replace(/`/g, "") : "-",
+          description: cells.length >= 4 ? cells[3] : cells[2] || "",
+        });
+      }
+    } else {
+      if (line !== "") {
+        nonTableLines.push(lines[i]);
+      }
+    }
+  }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={`space-y-4 w-full ${className}`}>
       {hasProps && (
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-              Component Properties
-            </h3>
-            <span className="text-xs text-slate-500 dark:text-slate-400">
-              TypeScript Interface
+        <div className="rounded-lg border border-zinc-700/60 bg-zinc-800 p-5 sm:p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-zinc-700/60 pb-3">
+            <div>
+              <h3 className="text-sm font-semibold text-zinc-100">
+                Component Properties
+              </h3>
+              <p className="text-xs text-zinc-400 mt-0.5">
+                Configurable props, types, and default values.
+              </p>
+            </div>
+            <span className="text-xs font-mono text-zinc-400 bg-zinc-900 border border-zinc-700 px-2 py-0.5 rounded">
+              TypeScript
             </span>
           </div>
 
-          <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs">
-            <div className="prose prose-sm dark:prose-invert max-w-none text-slate-700 dark:text-slate-300">
-              {lines.map((line, idx) => {
+          {/* Structured Table */}
+          {tableRows.length > 0 ? (
+            <div className="overflow-x-auto rounded-md border border-zinc-700/60 bg-zinc-900">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-zinc-700/60 bg-zinc-800/80 text-[11px] font-medium uppercase tracking-wider text-zinc-400">
+                    <th className="px-4 py-2.5">Prop</th>
+                    <th className="px-4 py-2.5">Type</th>
+                    <th className="px-4 py-2.5">Default</th>
+                    <th className="px-4 py-2.5">Description</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-800 text-zinc-300 font-sans">
+                  {tableRows.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-zinc-800/40 transition-colors">
+                      <td className="px-4 py-2.5 font-mono font-medium text-blue-200">
+                        <code>{row.prop}</code>
+                      </td>
+                      <td className="px-4 py-2.5 font-mono text-zinc-300">
+                        <span className="bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded text-[11px]">
+                          {row.type}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2.5 font-mono text-zinc-400">
+                        {row.defaultVal && row.defaultVal !== "-" ? (
+                          <span className="bg-zinc-800 px-1.5 py-0.5 rounded text-[11px] text-zinc-300">
+                            {row.defaultVal}
+                          </span>
+                        ) : (
+                          <span className="text-zinc-600">—</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2.5 text-zinc-400 leading-relaxed">
+                        {row.description}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="space-y-2 text-zinc-300">
+              {nonTableLines.map((line, idx) => {
                 if (line.startsWith("###")) {
                   return (
                     <h4
                       key={idx}
-                      className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 mt-1"
+                      className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 mt-3"
                     >
                       {line.replace(/^###\s*/, "")}
                     </h4>
                   );
                 }
                 if (line.startsWith("- `") || line.startsWith("* `")) {
-                  // Prop line e.g. - `title` (string): Metric label
                   const match = line.match(/^[-*]\s*`([^`]+)`\s*\(([^)]+)\):\s*(.+)$/);
                   if (match) {
                     const [, propName, propType, propDesc] = match;
                     return (
                       <div
                         key={idx}
-                        className="py-2 border-b border-slate-100 dark:border-slate-800/80 last:border-0 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 text-xs"
+                        className="py-2 border-b border-zinc-700/60 last:border-0 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 text-xs"
                       >
                         <div className="flex items-center gap-2">
-                          <code className="font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded">
+                          <code className="font-mono font-medium text-blue-200 bg-zinc-900 border border-zinc-700 px-1.5 py-0.5 rounded text-xs">
                             {propName}
                           </code>
-                          <span className="font-mono text-slate-500 dark:text-slate-400">
+                          <span className="font-mono text-zinc-300 text-xs">
                             {propType}
                           </span>
                         </div>
-                        <span className="text-slate-600 dark:text-slate-400 sm:text-right">
+                        <span className="text-zinc-400 text-xs sm:text-right">
                           {propDesc}
                         </span>
                       </div>
                     );
                   }
                 }
-                if (line.trim() === "") return null;
                 return (
-                  <p key={idx} className="text-xs text-slate-600 dark:text-slate-400 my-1">
+                  <p key={idx} className="text-xs text-zinc-400 leading-relaxed my-1">
                     {line}
                   </p>
                 );
               })}
             </div>
-          </div>
+          )}
         </div>
       )}
 
+      {/* Dependencies */}
       {hasDeps && declaredDependencies && (
-        <div className="space-y-3">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            Declared Dependencies
-          </h4>
+        <div className="rounded-lg border border-zinc-700/60 bg-zinc-800 p-4 space-y-2">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+            Dependencies
+          </div>
           <div className="flex flex-wrap gap-2">
             {Object.entries(declaredDependencies).map(([pkg, version]) => (
               <span
                 key={pkg}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono bg-zinc-900 text-zinc-300 border border-zinc-700"
               >
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  {pkg}
-                </span>
-                <span className="text-slate-400">{version}</span>
+                <span className="font-medium text-blue-200">{pkg}</span>
+                <span className="text-zinc-500">{version}</span>
               </span>
             ))}
           </div>

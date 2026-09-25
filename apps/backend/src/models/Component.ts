@@ -5,8 +5,10 @@ export type ComponentStatus = "draft" | "published";
 
 export interface IComponentFile {
   filename: string;
+  path?: string;
   content: string;
   fileType: string;
+  language?: string;
 }
 
 export interface IInstallInfo {
@@ -72,8 +74,10 @@ export interface PublicComponentDetail extends PublicComponentSummary {
 const ComponentFileSchema = new Schema<IComponentFile>(
   {
     filename: { type: String, required: true },
+    path: { type: String },
     content: { type: String, required: true },
     fileType: { type: String, required: true },
+    language: { type: String },
   },
   { _id: false }
 );

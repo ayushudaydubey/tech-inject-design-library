@@ -14,7 +14,6 @@ export const ComponentUsage: React.FC<ComponentUsageProps> = ({
     return null;
   }
 
-  // Clean code markdown tags if present
   const rawCode = usageDocumentation
     .replace(/^```[a-zA-Z]*\n?/, "")
     .replace(/```$/, "")
@@ -23,15 +22,15 @@ export const ComponentUsage: React.FC<ComponentUsageProps> = ({
   return (
     <div className={`space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+        <h3 className="text-sm font-semibold text-zinc-100">
           Usage Example
         </h3>
         <CopyButton text={rawCode} size="sm" />
       </div>
 
-      <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 overflow-hidden shadow-xs relative">
-        <pre className="text-xs font-mono text-slate-100 overflow-x-auto leading-relaxed">
-          <code>{rawCode}</code>
+      <div className="rounded-lg border border-zinc-800 bg-zinc-800 p-4 overflow-hidden relative shadow-xs">
+        <pre className="text-xs font-mono text-blue-200 overflow-x-auto leading-relaxed bg-zinc-950">
+          <code className="bg-zinc-950 text-blue-200">{rawCode}</code>
         </pre>
       </div>
     </div>

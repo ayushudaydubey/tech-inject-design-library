@@ -28,10 +28,10 @@ export const ComponentFilters: React.FC<ComponentFiltersProps> = ({
           onClick={() => onSelectCategory(undefined)}
           role="tab"
           aria-selected={!selectedCategory}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-lg text-xs transition-colors border ${
             !selectedCategory
-              ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm"
-              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+              ? "bg-zinc-800 text-blue-200 border-zinc-700 font-medium"
+              : "bg-zinc-900/90 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 border-zinc-800"
           }`}
         >
           All
@@ -46,10 +46,10 @@ export const ComponentFilters: React.FC<ComponentFiltersProps> = ({
               onClick={() => onSelectCategory(cat)}
               role="tab"
               aria-selected={isSelected}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs transition-colors border ${
                 isSelected
-                  ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                  ? "bg-zinc-800 text-blue-200 border-zinc-700 font-medium"
+                  : "bg-zinc-900/90 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 border-zinc-800"
               }`}
             >
               {cat}
@@ -60,14 +60,14 @@ export const ComponentFilters: React.FC<ComponentFiltersProps> = ({
 
       {/* Access Type Switcher (All / Free / Premium) */}
       {onSelectAccessType && (
-        <div className="flex items-center rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-1">
+        <div className="flex items-center rounded-lg border border-zinc-800 bg-zinc-900 p-0.5">
           <button
             type="button"
             onClick={() => onSelectAccessType("all")}
-            className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+            className={`px-3 py-1 rounded-md text-xs transition-colors ${
               selectedAccessType === "all"
-                ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-xs font-semibold"
-                : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-zinc-800 text-zinc-100 font-medium"
+                : "text-zinc-400 hover:text-zinc-200"
             }`}
           >
             All
@@ -75,25 +75,25 @@ export const ComponentFilters: React.FC<ComponentFiltersProps> = ({
           <button
             type="button"
             onClick={() => onSelectAccessType("free")}
-            className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-md text-xs transition-colors flex items-center gap-1.5 ${
               selectedAccessType === "free"
-                ? "bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 shadow-xs font-semibold"
-                : "text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400"
+                ? "bg-zinc-800 text-green-300 font-medium"
+                : "text-zinc-400 hover:text-zinc-200"
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
             Free
           </button>
           <button
             type="button"
             onClick={() => onSelectAccessType("premium")}
-            className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors flex items-center gap-1 ${
+            className={`px-3 py-1 rounded-md text-xs transition-colors flex items-center gap-1.5 ${
               selectedAccessType === "premium"
-                ? "bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-xs font-semibold"
-                : "text-slate-500 hover:text-amber-600 dark:hover:text-amber-400"
+                ? "bg-zinc-800 text-blue-200 font-medium"
+                : "text-zinc-400 hover:text-zinc-200"
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-300" />
             Premium
           </button>
         </div>

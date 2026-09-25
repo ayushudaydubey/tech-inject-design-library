@@ -1,26 +1,252 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #18181b;
+  /* zinc-900 */
+  --surface: #27272a;
+  /* zinc-800 */
+  --surface-muted: #27272a;
+  /* zinc-800 */
+  --border: #3f3f46;
+  /* zinc-700 */
+  --text-primary: #f4f4f5;
+  /* zinc-100 */
+  --text-secondary: #e4e4e7;
+  /* zinc-200 */
+  --text-muted: #a1a1aa;
+  /* zinc-400 */
+  --accent-blue: #bfdbfe;
+  /* blue-200 */
+  --success: #86efac;
+  /* green-300 */
 }
 
 @theme inline {
+  --color-zinc-750: #303036;
+  --color-zinc-850: #1d1d20;
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent-blue);
+  --color-success: var(--success);
+  --font-sans: var(--font-geist-sans), Inter, sans-serif;
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Visually hide scrollbars across all browsers while maintaining full scrolling functionality */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
+}
+
+/* Subtle dark mode scrollbars for page-level scrolling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* Full Dynamic Ambient Animations */
+@keyframes fluidDrift1 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.75;
+  }
+
+  25% {
+    transform: translate3d(80px, -60px, 0px) scale(1.22) rotate(25deg);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: translate3d(-50px, 70px, 0px) scale(0.88) rotate(-18deg);
+    opacity: 0.7;
+  }
+
+  75% {
+    transform: translate3d(60px, 40px, 0px) scale(1.15) rotate(12deg);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.75;
+  }
+}
+
+@keyframes fluidDrift2 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+
+  25% {
+    transform: translate3d(-70px, 65px, 0px) scale(1.18) rotate(-22deg);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: translate3d(75px, -50px, 0px) scale(0.92) rotate(15deg);
+    opacity: 0.7;
+  }
+
+  75% {
+    transform: translate3d(-40px, -45px, 0px) scale(1.2) rotate(-8deg);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fluidDrift3 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) scale(0.95);
+    opacity: 0.65;
+  }
+
+  33% {
+    transform: translate3d(-60px, 50px, 0px) scale(1.25);
+    opacity: 0.85;
+  }
+
+  66% {
+    transform: translate3d(55px, -35px, 0px) scale(0.9);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translate3d(0px, 0px, 0px) scale(0.95);
+    opacity: 0.65;
+  }
+}
+
+@keyframes fluidDrift4 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+
+  33% {
+    transform: translate3d(65px, 45px, 0px) scale(1.2) rotate(20deg);
+    opacity: 0.9;
+  }
+
+  66% {
+    transform: translate3d(-45px, -30px, 0px) scale(0.85) rotate(-15deg);
+    opacity: 0.65;
+  }
+
+  100% {
+    transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1.12);
+  }
+}
+
+.animate-fluid-1 {
+  animation: fluidDrift1 10s ease-in-out infinite;
+}
+
+.animate-fluid-2 {
+  animation: fluidDrift2 12s ease-in-out infinite;
+}
+
+.animate-fluid-3 {
+  animation: fluidDrift3 9s ease-in-out infinite;
+}
+
+.animate-fluid-4 {
+  animation: fluidDrift4 11s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 7s ease-in-out infinite;
+}
+
+/* ── Floating component chip animations ─────────────────────────────────── */
+@keyframes floatA {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  35%       { transform: translateY(-14px) translateX(6px); }
+  70%       { transform: translateY(9px)   translateX(-4px); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  40%       { transform: translateY(13px)  translateX(-7px); }
+  75%       { transform: translateY(-10px) translateX(5px); }
+}
+@keyframes floatC {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  50%       { transform: translateY(-18px) translateX(9px); }
+}
+@keyframes floatD {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  50%       { transform: translateY(17px)  translateX(-8px); }
+}
+@keyframes floatE {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  30%       { transform: translateY(-9px)  translateX(-11px); }
+  65%       { transform: translateY(11px)  translateX(8px); }
+}
+@keyframes floatF {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  45%       { transform: translateY(20px)  translateX(7px); }
+  80%       { transform: translateY(-13px) translateX(-5px); }
+}
+
+.fc-1 { animation: floatA 6s   ease-in-out infinite; }
+.fc-2 { animation: floatB 8s   ease-in-out infinite; }
+.fc-3 { animation: floatC 7s   ease-in-out infinite; }
+.fc-4 { animation: floatD 9s   ease-in-out infinite; }
+.fc-5 { animation: floatE 5.5s ease-in-out infinite; }
+.fc-6 { animation: floatF 10s  ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-1, .fc-2, .fc-3, .fc-4, .fc-5, .fc-6 { animation: none !important; }
 }

@@ -12,9 +12,9 @@ export function CustomerStatusBadge({
   if (isPremium) {
     return (
       <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-sm ${className}`}
+        className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-850 text-blue-200 border border-zinc-700/80 ${className}`}
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-blue-200" />
         Premium
       </span>
     );
@@ -22,9 +22,9 @@ export function CustomerStatusBadge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-800 text-zinc-400 border border-zinc-700/60 ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-850 text-green-300 border border-zinc-700/80 ${className}`}
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+      <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
       Free Tier
     </span>
   );

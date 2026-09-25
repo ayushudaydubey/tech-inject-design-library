@@ -52,9 +52,9 @@ export const ComponentActions: React.FC<ComponentActionsProps> = ({
   const isPublished = component.status === "published";
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center justify-end gap-1.5 ${className}`}>
       {actionError && (
-        <span className="text-[11px] text-rose-500 truncate max-w-xs" title={actionError}>
+        <span className="text-[11px] text-red-400 truncate max-w-xs" title={actionError}>
           {actionError}
         </span>
       )}
@@ -62,7 +62,7 @@ export const ComponentActions: React.FC<ComponentActionsProps> = ({
       {/* View Link */}
       <Link
         href={`/dashboard/components/${component._id}`}
-        className="px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors"
+        className="px-2.5 py-1 text-xs font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-700 rounded-md border border-zinc-700 transition-colors"
       >
         View
       </Link>
@@ -70,7 +70,7 @@ export const ComponentActions: React.FC<ComponentActionsProps> = ({
       {/* Edit Link */}
       <Link
         href={`/dashboard/components/${component._id}/edit`}
-        className="px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors"
+        className="px-2.5 py-1 text-xs font-medium text-zinc-300 hover:text-zinc-100 hover:bg-zinc-700 rounded-md border border-zinc-700 transition-colors"
       >
         Edit
       </Link>
@@ -84,7 +84,7 @@ export const ComponentActions: React.FC<ComponentActionsProps> = ({
             setUnpublishDialogOpen(true);
           }}
           disabled={unpublishMutation.isPending}
-          className="px-2.5 py-1 text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/60 rounded-lg border border-amber-200 dark:border-amber-900/50 transition-colors disabled:opacity-50"
+          className="px-2.5 py-1 text-xs font-medium text-zinc-300 bg-zinc-850 hover:bg-zinc-750 rounded-md border border-zinc-700 transition-colors disabled:opacity-50"
         >
           {unpublishMutation.isPending ? "Reverting..." : "Unpublish"}
         </button>
@@ -96,13 +96,12 @@ export const ComponentActions: React.FC<ComponentActionsProps> = ({
             setPublishDialogOpen(true);
           }}
           disabled={publishMutation.isPending}
-          className="px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-lg border border-emerald-200 dark:border-emerald-800/80 transition-colors disabled:opacity-50"
+          className="px-2.5 py-1 text-xs font-medium text-green-300 bg-zinc-850 hover:bg-zinc-750 rounded-md border border-zinc-700 transition-colors disabled:opacity-50"
         >
           {publishMutation.isPending ? "Publishing..." : "Publish"}
         </button>
       )}
 
-      {/* Confirmation Dialogs */}
       <ConfirmDialog
         isOpen={publishDialogOpen}
         title={`Publish Component "${component.name}"?`}

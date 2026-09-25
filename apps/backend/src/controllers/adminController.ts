@@ -3,11 +3,17 @@ import { z } from "zod";
 import { AdminService } from "../services/adminService";
 import { ApiError } from "../middleware/errorHandler";
 
-const componentFileSchema = z.object({
-  filename: z.string().min(1, "Filename is required"),
-  content: z.string().min(1, "Content cannot be empty"),
-  fileType: z.string().min(1, "File type is required"),
-});
+const componentFileSchema = z
+  .object({
+    filename: z.string().optional(),
+    path: z.string().optional(),
+    content: z.string().default(""),
+    fileType: z.string().optional(),
+    language: z.string().optional(),
+  })
+  .refine((f) => Boolean(f.filename || f.path), {
+    message: "Filename or path is required",
+  });
 
 const createComponentSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -142,7 +148,26 @@ export class AdminController {
   ): Promise<void> {
     try {
       const { id } = idParamSchema.parse(req.params);
-      const result = await AdminService.validateDraft(id);
+      const overridePayload =
+        req.body && Object.keys(req.body).length > 0 ? req.body : undefined;
+      const result = await AdminService.validateDraft(id, overridePayload);
+
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async validateDraftPayload(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const result = AdminService.validateDraftPayload(req.body || {});
 
       res.status(200).json({
         success: true,
@@ -208,6 +233,24 @@ export class AdminController {
         success: true,
         message: `Component "${draft.name}" has been unpublished and moved to draft`,
         data: draft,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteComponent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { id } = idParamSchema.parse(req.params);
+      await AdminService.deleteComponent(id);
+
+      res.status(200).json({
+        success: true,
+        message: `Component has been deleted successfully`,
       });
     } catch (error) {
       next(error);

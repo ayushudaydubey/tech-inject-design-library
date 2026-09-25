@@ -210,11 +210,19 @@ export const uploadComponentFiles = async (
 };
 
 export const validateComponentDraft = async (
-  id: string
+  id: string,
+  payload?: Partial<CreateComponentInput>
 ): Promise<ValidationResult> => {
   return api.post<ValidationResult>(
-    `/admin/components/${encodeURIComponent(id)}/validate`
+    `/admin/components/${encodeURIComponent(id)}/validate`,
+    payload
   );
+};
+
+export const validateComponentPayload = async (
+  payload: Partial<CreateComponentInput>
+): Promise<ValidationResult> => {
+  return api.post<ValidationResult>("/admin/components/validate", payload);
 };
 
 export const previewComponentDraft = async (
@@ -239,6 +247,12 @@ export const unpublishComponent = async (
   return api.post<AdminComponent>(
     `/admin/components/${encodeURIComponent(id)}/unpublish`
   );
+};
+
+export const deleteComponent = async (
+  id: string
+): Promise<void> => {
+  return api.delete<void>(`/admin/components/${encodeURIComponent(id)}`);
 };
 
 // ========================

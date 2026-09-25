@@ -14,17 +14,17 @@ export const AccessTypeField: React.FC<AccessTypeFieldProps> = ({
 }) => {
   return (
     <div className="space-y-3">
-      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+      <label className="block text-xs font-medium text-zinc-300">
         Access Tier
       </label>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Free Option */}
         <label
-          className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors ${
+          className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
             value === "free"
-              ? "border-blue-500 bg-blue-50/40 dark:bg-blue-950/20"
-              : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/60"
+              ? "border-blue-200/40 bg-zinc-800 ring-1 ring-blue-200/20"
+              : "border-zinc-800 bg-zinc-850/60 hover:bg-zinc-800/80 hover:border-zinc-700"
           } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <input
@@ -34,16 +34,16 @@ export const AccessTypeField: React.FC<AccessTypeFieldProps> = ({
             checked={value === "free"}
             onChange={() => onChange("free")}
             disabled={disabled}
-            className="mt-0.5 text-blue-600 focus:ring-blue-500"
+            className="mt-0.5 text-zinc-100 focus:ring-blue-200"
           />
           <div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            <div className="text-xs font-semibold text-zinc-100 flex items-center gap-1.5">
               <span>Free Community Component</span>
-              <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-200 dark:border-emerald-800">
+              <span className="text-[10px] font-medium text-green-300 bg-green-950/60 px-1.5 py-0.2 rounded border border-green-800/60">
                 Open
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-[11px] text-zinc-400 mt-0.5">
               Available to all visitors without requiring authentication.
             </p>
           </div>
@@ -51,10 +51,10 @@ export const AccessTypeField: React.FC<AccessTypeFieldProps> = ({
 
         {/* Premium Option */}
         <label
-          className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors ${
+          className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
             value === "premium"
-              ? "border-amber-500 bg-amber-50/40 dark:bg-amber-950/20"
-              : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/60"
+              ? "border-blue-200/40 bg-zinc-800 ring-1 ring-blue-200/20"
+              : "border-zinc-800 bg-zinc-850/60 hover:bg-zinc-800/80 hover:border-zinc-700"
           } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <input
@@ -64,16 +64,16 @@ export const AccessTypeField: React.FC<AccessTypeFieldProps> = ({
             checked={value === "premium"}
             onChange={() => onChange("premium")}
             disabled={disabled}
-            className="mt-0.5 text-amber-600 focus:ring-amber-500"
+            className="mt-0.5 text-zinc-100 focus:ring-blue-200"
           />
           <div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            <div className="text-xs font-semibold text-zinc-100 flex items-center gap-1.5">
               <span>Premium Protected Component</span>
-              <span className="text-[10px] font-semibold text-amber-700 bg-amber-100 dark:bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-200 dark:border-amber-800">
+              <span className="text-[10px] font-medium text-blue-200 bg-blue-950/60 px-1.5 py-0.2 rounded border border-blue-800/60">
                 PRO
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-[11px] text-zinc-400 mt-0.5">
               Guarded by server authentication; requires active customer premium status.
             </p>
           </div>

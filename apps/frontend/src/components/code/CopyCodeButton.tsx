@@ -35,22 +35,22 @@ export const CopyCodeButton: React.FC<CopyCodeButtonProps> = ({
           ? `Copied ${filename || "code"} to clipboard`
           : `Copy ${filename || "source code"} to clipboard`
       }
-      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 ${
+      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all focus:outline-none focus:ring-1 focus:ring-blue-200/50 disabled:opacity-50 ${
         copied
-          ? "bg-emerald-600 text-white"
-          : "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:text-white"
+          ? "bg-green-500/10 text-green-300 border border-green-500/30"
+          : "bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 hover:text-zinc-100"
       } ${className}`}
     >
       {copied ? (
         <>
-          <svg className="w-3.5 h-3.5 animate-in zoom-in-50 duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
           <span>Copied Source!</span>
         </>
       ) : (
         <>
-          <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
           <span>Copy Source</span>

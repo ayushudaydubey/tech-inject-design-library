@@ -18,25 +18,25 @@ export default function AdminNewComponentPage() {
     <AdminLayout>
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2 text-xs text-zinc-400">
           <Link
             href="/dashboard/components"
-            className="hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="hover:text-zinc-200 transition-colors"
           >
             Components
           </Link>
           <span>/</span>
-          <span className="text-slate-900 dark:text-white font-medium">
+          <span className="text-zinc-100 font-medium">
             New Component Draft
           </span>
         </div>
 
         {/* Page Title */}
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+        <div className="pb-4 border-b border-zinc-800">
+          <h1 className="text-xl font-semibold tracking-tight text-zinc-100">
             Create Component Draft
           </h1>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-zinc-400">
             Define metadata, props, dependencies, and preview fixtures. The component will be saved as a draft and kept private until validated and published.
           </p>
         </div>

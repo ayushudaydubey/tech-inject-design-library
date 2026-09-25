@@ -89,18 +89,18 @@ export const SourceFileUpload: React.FC<SourceFileUploadProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-5 ${className}`}
+      className={`rounded-xl border border-zinc-800 bg-zinc-850 p-6 space-y-5 ${className}`}
     >
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-zinc-100">
             Primary Component Source Code
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-zinc-400 mt-0.5">
             Upload .tsx, .ts, .jsx, or .js files. Memory buffer validated up to 5MB per file.
           </p>
         </div>
-        <span className="text-[11px] font-mono text-slate-400">
+        <span className="text-[11px] font-mono text-zinc-400">
           {sourceFiles.length} file(s) attached
         </span>
       </div>
@@ -108,16 +108,16 @@ export const SourceFileUpload: React.FC<SourceFileUploadProps> = ({
       {/* Currently Attached Files List */}
       {sourceFiles.length > 0 && (
         <div className="space-y-2">
-          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
             Current Stored Source Files:
           </div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 overflow-hidden">
+          <div className="divide-y divide-zinc-800 rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden">
             {sourceFiles.map((f, i) => (
               <div key={i} className="px-3.5 py-2.5 flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-800 dark:text-slate-200 font-semibold truncate">
+                <span className="text-zinc-200 font-medium truncate">
                   {f.filename}
                 </span>
-                <span className="text-[10px] uppercase font-bold text-blue-600 bg-blue-50 dark:bg-blue-950/80 px-2 py-0.5 rounded">
+                <span className="text-[10px] uppercase font-medium text-blue-200 bg-blue-950/60 border border-blue-800/40 px-2 py-0.5 rounded">
                   {f.fileType}
                 </span>
               </div>
@@ -127,7 +127,7 @@ export const SourceFileUpload: React.FC<SourceFileUploadProps> = ({
       )}
 
       {/* Upload Drop Zone / Input */}
-      <div className="p-5 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50/40 dark:bg-slate-950/40 text-center space-y-3">
+      <div className="p-5 rounded-xl border-2 border-dashed border-zinc-700 bg-zinc-900/60 text-center space-y-3">
         <input
           ref={fileInputRef}
           type="file"
@@ -141,9 +141,9 @@ export const SourceFileUpload: React.FC<SourceFileUploadProps> = ({
 
         <label
           htmlFor="source-files-input"
-          className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-700 shadow-xs transition-colors"
+          className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-zinc-300 bg-zinc-800 hover:bg-zinc-750 rounded-lg border border-zinc-700 transition-colors"
         >
-          <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
           <span>Choose Source Files</span>
@@ -151,14 +151,14 @@ export const SourceFileUpload: React.FC<SourceFileUploadProps> = ({
 
         {selectedFiles.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+            <p className="text-xs text-zinc-300 font-medium">
               Selected: {selectedFiles.map((f) => f.name).join(", ")}
             </p>
             <button
               type="button"
               onClick={handleUpload}
               disabled={uploadMutation.isPending}
-              className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-xs transition-colors disabled:opacity-50"
+              className="px-4 py-1.5 rounded-lg bg-blue-200 hover:bg-blue-100 text-zinc-900 font-medium text-xs transition-colors disabled:opacity-50"
             >
               {uploadMutation.isPending ? "Uploading..." : `Upload ${selectedFiles.length} File(s)`}
             </button>

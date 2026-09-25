@@ -157,3 +157,21 @@ export function useUnpublishComponent() {
     },
   });
 }
+
+/**
+ * Mutation hook to delete a component
+ */
+export function useDeleteComponent() {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, ApiError, string>({
+    mutationFn: async (id: string) => {
+      // Must import deleteComponent from api
+      const { deleteComponent } = await import('../lib/api');
+      return deleteComponent(id);
+    },
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: adminComponentKeys.list() });
+    },
+  });
+}

@@ -86,14 +86,14 @@ export const PreviewDataUpload: React.FC<PreviewDataUploadProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-4 ${className}`}
+      className={`rounded-xl border border-zinc-800 bg-zinc-850 p-6 space-y-4 ${className}`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-zinc-100">
             Component Preview Fixture (JSON)
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-zinc-400 mt-0.5">
             Safe structured test data passed into the component during public or draft visual rendering.
           </p>
         </div>
@@ -108,9 +108,9 @@ export const PreviewDataUpload: React.FC<PreviewDataUploadProps> = ({
           />
           <label
             htmlFor="json-file-input"
-            className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-xs"
+            className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-800 text-xs font-medium text-zinc-300 hover:bg-zinc-750 transition-colors"
           >
-            <svg className="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-3.5 h-3.5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
             <span>Upload JSON File</span>
@@ -124,7 +124,7 @@ export const PreviewDataUpload: React.FC<PreviewDataUploadProps> = ({
         onChange={(e) => setJsonText(e.target.value)}
         placeholder={`{\n  "title": "Quarterly Revenue",\n  "value": "$428,500"\n}`}
         disabled={updateMutation.isPending}
-        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-950 text-slate-100 text-xs font-mono placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 leading-relaxed shadow-inner"
+        className="w-full px-3.5 py-2.5 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100 text-xs font-mono placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:border-blue-200 disabled:opacity-50 leading-relaxed transition-colors"
       />
 
       <div className="flex items-center justify-between">
@@ -138,7 +138,7 @@ export const PreviewDataUpload: React.FC<PreviewDataUploadProps> = ({
           type="button"
           onClick={handleSave}
           disabled={updateMutation.isPending}
-          className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-xs transition-colors disabled:opacity-50"
+          className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-200 hover:bg-blue-100 text-zinc-900 font-medium text-xs transition-colors disabled:opacity-50"
         >
           {updateMutation.isPending ? "Saving..." : "Save Preview Data"}
         </button>

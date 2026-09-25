@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed:components": "tsx scripts/seed-components.ts",
+    "verify:catalogue": "tsx scripts/verify-catalogue.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +16,7 @@
     "eslint": "^10.11.0",
     "prettier": "^3.9.9",
     "turbo": "^2.11.3",
-    "typescript": "^7.0.2"
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "dotenv": "^18.0.3"

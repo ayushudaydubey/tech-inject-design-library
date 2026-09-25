@@ -2,12 +2,14 @@
 
 import React, { use, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AdminLayout } from "../../../../components/layout/AdminLayout";
 import {
   useAdminComponent,
   useValidateDraft,
   usePublishComponent,
   useUnpublishComponent,
+  useDeleteComponent,
 } from "../../../../hooks/useComponents";
 import { ComponentStatusBadge } from "../../../../components/components/ComponentStatusBadge";
 import { ComponentAccessBadge } from "../../../../components/components/ComponentAccessBadge";
@@ -29,6 +31,7 @@ export default function AdminComponentDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const router = useRouter();
   const { id } = use(params);
   const {
     data: component,
@@ -46,6 +49,7 @@ export default function AdminComponentDetailPage({
     useState<IValidationResult | null>(null);
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
   const [showUnpublishConfirm, setShowUnpublishConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [actionSuccess, setActionSuccess] = useState<string | null>(null);
 
@@ -101,25 +105,40 @@ export default function AdminComponentDetailPage({
     }
   };
 
+  const deleteMutation = useDeleteComponent();
+  
+  const handleDelete = async () => {
+    setActionError(null);
+    setActionSuccess(null);
+    try {
+      await deleteMutation.mutateAsync(id);
+      setShowDeleteConfirm(false);
+      router.push('/dashboard/components');
+    } catch (err: unknown) {
+      if (err instanceof ApiError) {
+        setActionError(err.message || "Failed to delete component.");
+      } else {
+        setActionError("An unexpected error occurred while deleting.");
+      }
+    }
+  };
+
   const isPublishReady =
-    validationResult?.isValid ||
-    (component?.status === "draft" &&
-      component.sourceFiles &&
-      component.sourceFiles.length > 0);
+    validationResult?.isValid === true && component?.status === "draft";
 
   return (
     <AdminLayout>
       <div className="space-y-8">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2 text-xs text-zinc-400">
           <Link
             href="/dashboard/components"
-            className="hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="hover:text-zinc-200 transition-colors"
           >
             Components
           </Link>
           <span>/</span>
-          <span className="text-slate-900 dark:text-white font-medium font-mono">
+          <span className="text-zinc-100 font-medium font-mono">
             {component?.slug || id}
           </span>
         </div>
@@ -144,17 +163,17 @@ export default function AdminComponentDetailPage({
         {/* Action Banner Alerts */}
         {actionError && (
           <div
-            className="p-4 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2.5"
+            className="p-3 rounded-md border border-red-500/30 bg-red-950/20 text-red-300 text-xs flex items-start gap-2.5"
             role="alert"
           >
             <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div className="flex-1">{actionError}</div>
             <button
               type="button"
               onClick={() => setActionError(null)}
-              className="text-rose-500 hover:text-rose-700"
+              className="text-red-400 hover:text-red-300"
             >
               &times;
             </button>
@@ -163,17 +182,17 @@ export default function AdminComponentDetailPage({
 
         {actionSuccess && (
           <div
-            className="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-xs flex items-start gap-2.5"
+            className="p-3 rounded-md border border-green-500/30 bg-green-950/20 text-green-300 text-xs flex items-start gap-2.5"
             role="status"
           >
             <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M5 13l4 4L19 7" />
             </svg>
             <div className="flex-1">{actionSuccess}</div>
             <button
               type="button"
               onClick={() => setActionSuccess(null)}
-              className="text-emerald-500 hover:text-emerald-700"
+              className="text-green-400 hover:text-green-300"
             >
               &times;
             </button>
@@ -182,46 +201,46 @@ export default function AdminComponentDetailPage({
 
         {/* Component Detail Content */}
         {!isLoading && !isError && component && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Header / Action Bar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5 rounded-lg border border-zinc-700/60 bg-zinc-800 shadow-xs">
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                  <h1 className="text-xl font-semibold tracking-tight text-zinc-100">
                     {component.name}
                   </h1>
-                  <span className="font-mono text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                  <span className="font-mono text-xs text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded border border-zinc-700">
                     v{component.version}
                   </span>
                   <ComponentStatusBadge status={component.status} />
                   <ComponentAccessBadge accessType={component.accessType} />
                 </div>
-                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                  <span>Category: <strong className="text-slate-700 dark:text-slate-200">{component.category}</strong></span>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-400">
+                  <span>Category: <strong className="text-zinc-200 font-medium">{component.category}</strong></span>
                   <span>&bull;</span>
-                  <span>Slug: <code className="font-mono text-slate-600 dark:text-slate-300">{component.slug}</code></span>
+                  <span>Slug: <code className="font-mono text-zinc-300">{component.slug}</code></span>
                   <span>&bull;</span>
                   <span>Updated: {formatDate(component.updatedAt)}</span>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 <Link
                   href={`/dashboard/components/${id}/edit`}
-                  className="px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors inline-flex items-center gap-1.5"
+                  className="px-3 py-1.5 text-xs font-medium text-zinc-900 bg-blue-200 hover:bg-blue-100 rounded-md shadow-xs transition-colors inline-flex items-center gap-1.5"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
-                  <span>Edit Metadata</span>
+                  <span>Edit in Code Editor</span>
                 </Link>
 
                 <button
                   type="button"
                   onClick={handleValidate}
                   disabled={validateMutation.isPending}
-                  className="px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 transition-colors inline-flex items-center gap-1.5 disabled:opacity-50"
+                  className="px-3 py-1.5 text-xs font-medium text-zinc-200 hover:text-zinc-100 hover:bg-zinc-700 rounded-md border border-zinc-700 transition-colors inline-flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   {validateMutation.isPending ? (
                     <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -229,8 +248,8 @@ export default function AdminComponentDetailPage({
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                   ) : (
-                    <svg className="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg className="w-3.5 h-3.5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   )}
                   <span>Validate Draft</span>
@@ -243,13 +262,13 @@ export default function AdminComponentDetailPage({
                     disabled={publishMutation.isPending || !isPublishReady}
                     title={
                       !isPublishReady
-                        ? "Upload at least one source file or run validation before publishing"
-                        : "Publish to public catalogue"
+                        ? "Run validation and ensure all checks pass before publishing"
+                        : "Publish component to public catalogue"
                     }
-                    className="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-xs transition-colors inline-flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="px-3.5 py-1.5 text-xs font-medium text-zinc-900 bg-green-300 hover:bg-green-200 rounded-md shadow-xs transition-colors inline-flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M5 13l4 4L19 7" />
                     </svg>
                     <span>Publish Component</span>
                   </button>
@@ -260,10 +279,10 @@ export default function AdminComponentDetailPage({
                     type="button"
                     onClick={() => setShowUnpublishConfirm(true)}
                     disabled={unpublishMutation.isPending}
-                    className="px-4 py-2 text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800 rounded-lg transition-colors inline-flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-3.5 py-1.5 text-xs font-medium text-zinc-300 bg-zinc-850 hover:bg-zinc-750 border border-zinc-700 rounded-md transition-colors inline-flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                     </svg>
                     <span>Unpublish to Draft</span>
                   </button>
@@ -272,11 +291,11 @@ export default function AdminComponentDetailPage({
             </div>
 
             {/* Description & Overview */}
-            <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-3">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+            <div className="p-5 rounded-lg border border-zinc-700/60 bg-zinc-800 shadow-xs space-y-2">
+              <h3 className="text-xs font-semibold text-zinc-100">
                 Description
               </h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-zinc-400 leading-relaxed">
                 {component.description}
               </p>
             </div>
@@ -291,30 +310,122 @@ export default function AdminComponentDetailPage({
             {/* Visual Sandbox Preview */}
             <DraftPreview component={component} />
 
-            {/* Upload Sections Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SourceFileUpload
-                componentId={id}
-                sourceFiles={component.sourceFiles}
-                onUploadSuccess={() => {
-                  refetch();
-                  setActionSuccess("Source file uploaded successfully.");
-                }}
-              />
+            {/* Complete Stored Component Package Overview */}
+            <div className="p-5 rounded-lg border border-zinc-700/60 bg-zinc-800 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-700/60">
+                <div>
+                  <h3 className="text-xs font-semibold text-zinc-100 flex items-center gap-2">
+                    <span>Component Package Files</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-850 text-zinc-400 font-normal border border-zinc-700">
+                      {(component.sourceFiles?.length || 0) + (component.supportingFiles?.length || 0) + (component.themeFiles?.length || 0)} file(s)
+                    </span>
+                  </h3>
+                  <p className="text-xs text-zinc-400 mt-0.5">
+                    All source code, TypeScript declarations, and stylesheet tokens attached to this component package.
+                  </p>
+                </div>
 
-              <SupportingFilesUpload
-                componentId={id}
-                supportingFiles={component.supportingFiles}
-                themeFiles={component.themeFiles}
-                onUploadSuccess={() => {
-                  refetch();
-                  setActionSuccess("Supporting bundle files uploaded successfully.");
-                }}
-              />
+                <Link
+                  href={`/dashboard/components/${id}/edit`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-200 hover:text-blue-100 bg-zinc-850 hover:bg-zinc-750 border border-zinc-700 rounded-md transition-colors self-start sm:self-auto"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                  <span>Edit in Code Editor</span>
+                </Link>
+              </div>
+
+              {/* Stored Files Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {(component.sourceFiles || []).map((f, idx) => (
+                  <div
+                    key={`src-${idx}`}
+                    className="p-3 rounded-md border border-zinc-700 bg-zinc-850 space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-medium text-zinc-200 truncate">
+                        {f.filename || f.path}
+                      </span>
+                      <span className="text-[10px] uppercase font-medium text-blue-200 bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded">
+                        Main Source
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400 font-mono">
+                      {f.content ? `${Math.round(f.content.length / 1024 * 10) / 10} KB` : "0 KB"} &bull; {f.language || f.fileType}
+                    </div>
+                  </div>
+                ))}
+
+                {(component.supportingFiles || []).map((f, idx) => (
+                  <div
+                    key={`supp-${idx}`}
+                    className="p-3 rounded-md border border-zinc-700 bg-zinc-850 space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-medium text-zinc-200 truncate">
+                        {f.filename || f.path}
+                      </span>
+                      <span className="text-[10px] uppercase font-medium text-zinc-300 bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded">
+                        Supporting TS
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400 font-mono">
+                      {f.content ? `${Math.round(f.content.length / 1024 * 10) / 10} KB` : "0 KB"} &bull; {f.language || f.fileType}
+                    </div>
+                  </div>
+                ))}
+
+                {(component.themeFiles || []).map((f, idx) => (
+                  <div
+                    key={`theme-${idx}`}
+                    className="p-3 rounded-md border border-zinc-700 bg-zinc-850 space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-medium text-zinc-200 truncate">
+                        {f.filename || f.path}
+                      </span>
+                      <span className="text-[10px] uppercase font-medium text-green-300 bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded">
+                        Theme CSS
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400 font-mono">
+                      {f.content ? `${Math.round(f.content.length / 1024 * 10) / 10} KB` : "0 KB"} &bull; {f.language || f.fileType}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Optional Secondary Upload Dropdowns */}
+              <details className="pt-2 text-xs text-zinc-400">
+                <summary className="cursor-pointer hover:text-zinc-200 font-medium select-none">
+                  Need to replace or upload files from disk? Click to expand manual file uploaders &darr;
+                </summary>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-3">
+                  <SourceFileUpload
+                    componentId={id}
+                    sourceFiles={component.sourceFiles}
+                    onUploadSuccess={() => {
+                      refetch();
+                      setActionSuccess("Source file uploaded successfully.");
+                    }}
+                  />
+
+                  <SupportingFilesUpload
+                    componentId={id}
+                    supportingFiles={component.supportingFiles}
+                    themeFiles={component.themeFiles}
+                    onUploadSuccess={() => {
+                      refetch();
+                      setActionSuccess("Supporting bundle files uploaded successfully.");
+                    }}
+                  />
+                </div>
+              </details>
             </div>
 
             {/* Preview Fixture Data Upload & Display */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               <PreviewDataUpload
                 componentId={id}
                 currentPreviewData={component.previewData}
@@ -328,25 +439,25 @@ export default function AdminComponentDetailPage({
             </div>
 
             {/* Props & Dependencies Overview */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               {/* Declared Dependencies */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-3">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+              <div className="p-5 rounded-lg border border-zinc-700/60 bg-zinc-800 shadow-xs space-y-3">
+                <h3 className="text-xs font-semibold text-zinc-100">
                   Declared NPM Dependencies
                 </h3>
                 {component.declaredDependencies &&
                 Object.keys(component.declaredDependencies).length > 0 ? (
-                  <div className="divide-y divide-slate-100 dark:divide-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 overflow-hidden">
+                  <div className="divide-y divide-zinc-700 rounded-md border border-zinc-700 bg-zinc-850 overflow-hidden">
                     {Object.entries(component.declaredDependencies).map(
                       ([pkg, ver]) => (
                         <div
                           key={pkg}
                           className="px-3.5 py-2 flex items-center justify-between text-xs font-mono"
                         >
-                          <span className="text-slate-800 dark:text-slate-200">
+                          <span className="text-zinc-200 font-normal">
                             {pkg}
                           </span>
-                          <span className="text-slate-500 font-semibold">
+                          <span className="text-zinc-400">
                             {ver}
                           </span>
                         </div>
@@ -354,28 +465,62 @@ export default function AdminComponentDetailPage({
                     )}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 italic">
+                  <p className="text-xs text-zinc-400 italic">
                     No external dependencies declared for this component.
                   </p>
                 )}
               </div>
 
               {/* AI Agent Prompt Override */}
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-3">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+              <div className="p-5 rounded-lg border border-zinc-700/60 bg-zinc-800 shadow-xs space-y-3">
+                <h3 className="text-xs font-semibold text-zinc-100">
                   AI Agent Prompt Instruction
                 </h3>
                 {component.agentPrompt ? (
-                  <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+                  <div className="p-3 rounded-md bg-zinc-850 border border-zinc-700 text-xs text-zinc-300 leading-relaxed font-mono whitespace-pre-wrap">
                     {component.agentPrompt}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 italic">
+                  <p className="text-xs text-zinc-400 italic">
                     Standard automated installer agent prompt will be generated dynamically.
                   </p>
                 )}
               </div>
             </div>
+
+            {/* Danger Zone */}
+            {component.status === "draft" && (
+              <div className="p-5 rounded-lg border border-red-500/30 bg-red-950/15 shadow-xs space-y-3 mt-6">
+                <div>
+                  <h3 className="text-xs font-semibold text-red-300">
+                    Danger Zone
+                  </h3>
+                  <p className="text-xs text-red-400 mt-1">
+                    Permanently delete this draft component and its stored source, documentation, preview data, and related component data. This action cannot be undone.
+                  </p>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowDeleteConfirm(true)}
+                    disabled={deleteMutation.isPending}
+                    className="px-3.5 py-1.5 text-xs font-medium text-red-300 bg-red-950/30 hover:bg-red-900/40 rounded-md border border-red-500/30 transition-colors inline-flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {deleteMutation.isPending ? (
+                      <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    )}
+                    <span>{deleteMutation.isPending ? "Deleting..." : "Delete Draft"}</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -402,6 +547,33 @@ export default function AdminComponentDetailPage({
           isLoading={unpublishMutation.isPending}
           onConfirm={handleUnpublish}
           onClose={() => setShowUnpublishConfirm(false)}
+        />
+
+        <ConfirmDialog
+          isOpen={showDeleteConfirm}
+          title={`Delete Draft?`}
+          description={
+            <div className="space-y-2">
+              <p>This will permanently delete:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>component metadata</li>
+                <li>source files</li>
+                <li>supporting files</li>
+                <li>preview data</li>
+                <li>documentation</li>
+                <li>dependencies</li>
+                <li>AI agent prompt</li>
+                <li>other persisted component data</li>
+              </ul>
+              <p className="pt-2 font-medium">This action cannot be undone.</p>
+            </div>
+          }
+          confirmText="Delete Draft"
+          cancelText="Cancel"
+          variant="danger"
+          isLoading={deleteMutation.isPending}
+          onConfirm={handleDelete}
+          onClose={() => setShowDeleteConfirm(false)}
         />
       </div>
     </AdminLayout>

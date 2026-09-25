@@ -94,7 +94,11 @@ export class ComponentService {
       version: component.version,
       previewData: component.previewData,
       primarySource: component.sourceFiles[0] || null,
+      sourceFiles: component.sourceFiles,
+      supportingFiles: component.supportingFiles,
       themeFiles: component.themeFiles,
+      declaredDependencies: component.declaredDependencies,
+      propsDocumentation: component.propsDocumentation,
     };
   }
 

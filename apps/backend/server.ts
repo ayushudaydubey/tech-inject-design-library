@@ -9,7 +9,7 @@ import adminRoutes from "./src/routes/adminRoutes";
 import { errorHandler, notFoundHandler } from "./src/middleware/errorHandler";
 
 export const app = express();
-const PORT = process.env.PORT ||5000;
+const PORT = process.env.PORT || 5000;
 
 // Global middleware
 const normalizeUrl = (url?: string): string | null => {
@@ -82,6 +82,8 @@ app.use(errorHandler);
 
 // Start server if executed directly
 app.listen(PORT, () => {
-  connectDatabase()
+  connectDatabase().then(() => {
+    seedDatabase().catch((err) => console.error("Error during seedDatabase:", err));
+  });
   console.log(`Server running on port ${PORT}`);
 });

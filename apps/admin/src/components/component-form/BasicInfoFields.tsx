@@ -1,4 +1,5 @@
 import React from "react";
+import { CategorySelect } from "./CategorySelect";
 
 export interface BasicInfoFieldsProps {
   name: string;
@@ -27,15 +28,15 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
+      <h3 className="text-sm font-semibold text-zinc-100 border-b border-zinc-800 pb-2">
         Basic Metadata
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Name */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            Component Name <span className="text-rose-500">*</span>
+          <label className="block text-xs font-medium text-zinc-300 mb-1">
+            Component Name <span className="text-rose-400">*</span>
           </label>
           <input
             type="text"
@@ -44,14 +45,14 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
             placeholder="e.g. Sales Metric Card"
             required
             disabled={disabled}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:border-blue-200 disabled:opacity-50 transition-colors"
           />
         </div>
 
         {/* Slug */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            URL Slug <span className="text-slate-400 font-normal">(optional, auto-derived)</span>
+          <label className="block text-xs font-medium text-zinc-300 mb-1">
+            URL Slug <span className="text-zinc-500 font-normal">(optional, auto-derived)</span>
           </label>
           <input
             type="text"
@@ -59,29 +60,26 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
             onChange={(e) => onChange({ slug: e.target.value })}
             placeholder="sales-metric-card"
             disabled={disabled}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 text-xs text-zinc-100 font-mono placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:border-blue-200 disabled:opacity-50 transition-colors"
           />
         </div>
 
         {/* Category */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-            Category <span className="text-rose-500">*</span>
+          <label className="block text-xs font-medium text-zinc-300 mb-1">
+            Category <span className="text-rose-400">*</span>
           </label>
-          <input
-            type="text"
+          <CategorySelect
             value={category}
-            onChange={(e) => onChange({ category: e.target.value })}
-            placeholder="e.g. Analytics, CRM Pipeline, Forms"
+            onChange={(val) => onChange({ category: val })}
             required
             disabled={disabled}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
           />
         </div>
 
         {/* Version */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-xs font-medium text-zinc-300 mb-1">
             Version
           </label>
           <input
@@ -90,15 +88,15 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
             onChange={(e) => onChange({ version: e.target.value })}
             placeholder="1.0.0"
             disabled={disabled}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 text-xs text-zinc-100 font-mono placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:border-blue-200 disabled:opacity-50 transition-colors"
           />
         </div>
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-          Description <span className="text-rose-500">*</span>
+        <label className="block text-xs font-medium text-zinc-300 mb-1">
+          Description <span className="text-rose-400">*</span>
         </label>
         <textarea
           rows={3}
@@ -107,7 +105,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           placeholder="Concise overview explaining the component's functionality, variants, and design role..."
           required
           disabled={disabled}
-          className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 leading-relaxed"
+          className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-800 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:border-blue-200 disabled:opacity-50 leading-relaxed transition-colors"
         />
       </div>
     </div>

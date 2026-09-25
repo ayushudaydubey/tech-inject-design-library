@@ -18,29 +18,29 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
   if (type === "cards") {
     return (
       <div
-        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${className}`}
+        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ${className}`}
         role="status"
         aria-label="Loading components"
       >
         {Array.from({ length: count }).map((_, i) => (
           <div
             key={i}
-            className="animate-pulse rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col justify-between h-72 shadow-sm"
+            className="animate-pulse rounded-lg border border-zinc-700/60 bg-zinc-800 p-5 flex flex-col justify-between h-64"
           >
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-6 w-24 bg-slate-200 dark:bg-slate-800 rounded-md" />
-                <div className="h-5 w-16 bg-slate-200 dark:bg-slate-800 rounded-full" />
+              <div className="flex items-center justify-between mb-3.5">
+                <div className="h-5 w-20 bg-zinc-700/70 rounded" />
+                <div className="h-4 w-14 bg-zinc-700/50 rounded" />
               </div>
-              <div className="h-6 w-3/4 bg-slate-200 dark:bg-slate-800 rounded mb-2" />
-              <div className="space-y-2">
-                <div className="h-4 w-full bg-slate-100 dark:bg-slate-800/60 rounded" />
-                <div className="h-4 w-5/6 bg-slate-100 dark:bg-slate-800/60 rounded" />
+              <div className="h-5 w-2/3 bg-zinc-700/70 rounded mb-2.5" />
+              <div className="space-y-1.5">
+                <div className="h-3.5 w-full bg-zinc-700/40 rounded" />
+                <div className="h-3.5 w-4/5 bg-zinc-700/40 rounded" />
               </div>
             </div>
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <div className="h-4 w-20 bg-slate-200 dark:bg-slate-800 rounded" />
-              <div className="h-9 w-28 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+            <div className="pt-3.5 border-t border-zinc-700/50 flex items-center justify-between">
+              <div className="h-3.5 w-16 bg-zinc-700/60 rounded" />
+              <div className="h-8 w-20 bg-zinc-700/60 rounded-md" />
             </div>
           </div>
         ))}
@@ -51,35 +51,35 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
   if (type === "detail") {
     return (
       <div
-        className={`space-y-8 animate-pulse ${className}`}
+        className={`space-y-6 animate-pulse ${className}`}
         role="status"
         aria-label="Loading component details"
       >
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-8">
-          <div className="h-5 w-32 bg-slate-200 dark:bg-slate-800 rounded-full mb-4" />
-          <div className="h-10 w-96 bg-slate-200 dark:bg-slate-800 rounded mb-3" />
-          <div className="h-5 w-2/3 bg-slate-100 dark:bg-slate-800/60 rounded" />
+        <div className="border-b border-zinc-800 pb-6">
+          <div className="h-4 w-28 bg-zinc-800 rounded mb-3" />
+          <div className="h-8 w-80 bg-zinc-800 rounded mb-2.5" />
+          <div className="h-4 w-1/2 bg-zinc-800/60 rounded" />
         </div>
-        <div className="h-96 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800" />
+        <div className="h-80 rounded-lg bg-zinc-850 border border-zinc-750" />
       </div>
     );
   }
 
   return (
     <div
-      className={`flex flex-col items-center justify-center p-12 text-center ${className}`}
+      className={`flex flex-col items-center justify-center p-10 text-center ${className}`}
       role="status"
       aria-label={title}
     >
-      <div className="relative w-12 h-12 mb-4">
-        <div className="absolute inset-0 rounded-full border-4 border-slate-200 dark:border-slate-800" />
-        <div className="absolute inset-0 rounded-full border-4 border-slate-900 dark:border-white border-t-transparent animate-spin" />
+      <div className="relative w-8 h-8 mb-3">
+        <div className="absolute inset-0 rounded-full border-2 border-zinc-800" />
+        <div className="absolute inset-0 rounded-full border-2 border-blue-200 border-t-transparent animate-spin" />
       </div>
-      <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100">
+      <h3 className="text-sm font-medium text-zinc-200">
         {title}
       </h3>
       {description && (
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 max-w-sm">
+        <p className="mt-1 text-xs text-zinc-400 max-w-sm">
           {description}
         </p>
       )}

@@ -1,259 +1,231 @@
 import Link from "next/link";
+import { HeroChips } from "@/components/hero/HeroChips";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 bg-[var(--background)]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-24 md:pt-28 md:pb-32 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-white via-slate-50/50 to-white dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <section className="relative pt-24 pb-20 border-b border-[var(--border)] overflow-hidden">
+
+        <HeroChips />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80 mb-6 shadow-xs animate-in fade-in duration-500">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
-            <span>Tech Inject Design Library &bull; Version 1.0</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 text-[13px] font-medium text-[var(--accent-blue)] bg-blue-900/10 border border-blue-900/20 mb-8 rounded">
+            <span>Tech Inject Design Library &bull; 1.0</span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight">
-            Production UI Components for{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
-              Modern Engineering
-            </span>
+          <h1 className="text-4xl md:text-5xl font-semibold text-[var(--text-primary)] tracking-tight max-w-3xl mx-auto leading-tight">
+            Production UI Components for Modern Engineering
           </h1>
 
           {/* Subheading */}
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            A dynamic, enterprise-grade component catalogue. Copy production-ready source code, install via CLI, or automate integrations with AI coding agents.
+          <p className="mt-6 text-lg text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
+            A practical, enterprise-grade component catalogue. Copy source code, install via CLI, or integrate with AI coding agents directly.
           </p>
 
           {/* CTAs */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/components"
-              className="w-full sm:w-auto px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="px-6 py-2.5 rounded bg-[var(--text-primary)] text-[var(--background)] font-medium text-[15px] hover:bg-zinc-200 transition-colors"
             >
               Browse Components
             </Link>
             <Link
               href="/get-started"
-              className="w-full sm:w-auto px-7 py-3 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-semibold text-base border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-xs"
+              className="px-6 py-2.5 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] font-medium text-[15px] hover:bg-[var(--surface-muted)] transition-colors"
             >
-              Getting Started Guide
+              Getting Started
             </Link>
           </div>
 
-          {/* CLI Terminal snippet */}
-          <div className="mt-12 max-w-xl mx-auto rounded-2xl bg-slate-950 border border-slate-800 p-4 shadow-xl text-left font-mono text-xs text-slate-300">
-            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-800/80 text-slate-500 text-[11px]">
-              <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+          {/* Code Editor Card */}
+          <div className="mt-16 max-w-2xl mx-auto rounded-xl border border-zinc-800/70 bg-zinc-950 overflow-hidden shadow-2xl shadow-black/60 text-left font-mono text-[12.5px]">
+
+            {/* ── Editor title bar ──────────────────────────────────────── */}
+            <div className="flex items-center gap-0 bg-zinc-900 border-b border-zinc-800/80">
+              {/* Window dots */}
+              <div className="flex items-center gap-1.5 px-3.5 py-2.5 border-r border-zinc-800/60">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
               </div>
-              <span className="ml-2">terminal &mdash; zsh</span>
+              {/* Active file tab */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-950 border-r border-zinc-800/60 text-zinc-300 text-[11px]">
+                <svg className="w-3 h-3 text-zinc-400" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14z"/></svg>
+                install.ts
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 text-zinc-600 text-[11px]">
+                terminal
+              </div>
+              <div className="ml-auto px-3 text-[10px] text-zinc-600">tech-inject-ui</div>
             </div>
-            <div className="flex items-center gap-2 text-slate-100">
-              <span className="text-emerald-400 select-none">$</span>
-              <span>npx tech-inject add sales-metric-card</span>
+
+            {/* ── Editor body ───────────────────────────────────────────── */}
+            <div className="flex">
+              {/* Line number gutter */}
+              <div className="select-none py-4 px-3 text-right text-[11px] leading-[1.9] text-zinc-600 bg-zinc-950 min-w-[36px] border-r border-zinc-800/40">
+                {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                  <div key={n}>{n}</div>
+                ))}
+              </div>
+
+              {/* Code lines */}
+              <div className="py-4 px-5 leading-[1.9] overflow-x-auto flex-1">
+                {/* line 1 */}
+                <div>
+                  <span className="text-purple-400">import</span>
+                  <span className="text-zinc-300"> &#123; </span>
+                  <span className="text-zinc-200">TechInject</span>
+                  <span className="text-zinc-300"> &#125; </span>
+                  <span className="text-purple-400">from</span>
+                  <span className="text-green-300"> &apos;tech-inject-ui&apos;</span>
+                  <span className="text-zinc-500">;</span>
+                </div>
+                {/* line 2 - blank */}
+                <div>&nbsp;</div>
+                {/* line 3 */}
+                <div>
+                  <span className="text-zinc-500">// Install a component via CLI</span>
+                </div>
+                {/* line 4 */}
+                <div>
+                  <span className="text-purple-400">const</span>
+                  <span className="text-zinc-200"> result</span>
+                  <span className="text-zinc-300"> = </span>
+                  <span className="text-purple-400">await</span>
+                  <span className="text-zinc-200"> TechInject</span>
+                  <span className="text-zinc-400">.</span>
+                  <span className="text-yellow-300">add</span>
+                  <span className="text-zinc-300">(</span>
+                </div>
+                {/* line 5 */}
+                <div className="pl-5">
+                  <span className="text-green-300">&apos;sales-metric-card&apos;</span>
+                  <span className="text-zinc-500">,</span>
+                </div>
+                {/* line 6 */}
+                <div className="pl-5">
+                  <span className="text-zinc-300">&#123; </span>
+                  <span className="text-cyan-300">typescript</span>
+                  <span className="text-zinc-300">: </span>
+                  <span className="text-orange-300">true</span>
+                  <span className="text-zinc-300"> &#125;</span>
+                </div>
+                {/* line 7 */}
+                <div>
+                  <span className="text-zinc-300">)</span>
+                  <span className="text-zinc-500">;</span>
+                </div>
+                {/* line 8 - blank */}
+                <div>&nbsp;</div>
+                {/* line 9 output */}
+                <div>
+                  <span className="text-zinc-600">// </span>
+                  <span className="text-green-400">✓</span>
+                  <span className="text-zinc-500"> Installed </span>
+                  <span className="text-zinc-300">SalesMetricCard.tsx</span>
+                  <span className="text-zinc-500">, </span>
+                  <span className="text-zinc-300">types.ts</span>
+                </div>
+                {/* line 10 cursor */}
+                <div className="flex items-center gap-0">
+                  <span className="text-zinc-500">▸ </span>
+                  <span className="text-zinc-300">npx tech-inject add </span>
+                  <span className="text-green-300">sales-metric-card</span>
+                  <span className="inline-block w-[2px] h-[14px] bg-zinc-300 ml-0.5 animate-pulse" />
+                </div>
+              </div>
             </div>
-            <div className="mt-2 text-slate-400 text-[11px]">
-              &gt; Resolving component from public catalogue...<br />
-              &gt; Installed SalesMetricCard.tsx, types.ts, metric-card.css<br />
-              &gt; Done in 0.8s
+
+            {/* ── Status bar ────────────────────────────────────────────── */}
+            <div className="flex items-center justify-between px-3 py-1 bg-zinc-800 border-t border-zinc-700/60 text-[10px] text-zinc-400">
+              <div className="flex items-center gap-3">
+                <span>⎇ main</span>
+                <span>✓ TypeScript</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span>tech-inject-ui v1.0</span>
+                <span>UTF-8</span>
+              </div>
             </div>
           </div>
+
         </div>
       </section>
 
       {/* Feature Highlights Grid */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">
-              Architecture & Features
-            </h2>
-            <h3 className="text-3xl font-extrabold text-slate-900 dark:text-white">
-              Engineered for Real-World Workflows
-            </h3>
-            <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm">
-              Built on a dynamic backend authority model without hardcoded static lists or brittle deployments.
-            </p>
+      <section className="py-20 border-b border-[var(--border)]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="mb-12">
+            <h3 className="text-xl font-semibold text-[var(--text-primary)]">Architecture &amp; Features</h3>
+            <p className="mt-2 text-[var(--text-secondary)]">Engineered for real-world workflows without brittle deployments.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Feature 1 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" />
-                </svg>
-              </div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                Dynamic Publishing
-              </h4>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                When an admin drafts and publishes a component, it immediately appears in the catalogue without frontend redeployment.
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-5 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.12)] hover:shadow-[0_0_25px_rgba(191,219,254,0.22)] transition-all">
+              <h4 className="font-medium text-[var(--text-primary)]">Dynamic Publishing</h4>
+              <p className="mt-2 text-[14px] text-[var(--text-muted)]">Immediate catalog updates without frontend redeployment.</p>
             </div>
-
-            {/* Feature 2 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 flex items-center justify-center text-amber-600 dark:text-amber-400 mb-4">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                Server-Side Access Authority
-              </h4>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Premium source code and install scripts are guarded by live database permission checks. Revocation takes effect instantly.
-              </p>
+            <div className="p-5 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.12)] hover:shadow-[0_0_25px_rgba(191,219,254,0.22)] transition-all">
+              <h4 className="font-medium text-[var(--text-primary)]">Access Authority</h4>
+              <p className="mt-2 text-[14px] text-[var(--text-muted)]">Live database permission checks for premium source code.</p>
             </div>
-
-            {/* Feature 3 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-4">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                CLI Integration
-              </h4>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Install components with verified dependencies using <code className="text-blue-600 dark:text-blue-400">npx tech-inject add</code> in any React project.
-              </p>
+            <div className="p-5 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.12)] hover:shadow-[0_0_25px_rgba(191,219,254,0.22)] transition-all">
+              <h4 className="font-medium text-[var(--text-primary)]">CLI Integration</h4>
+              <p className="mt-2 text-[14px] text-[var(--text-muted)]">Install components seamlessly into any React project.</p>
             </div>
-
-            {/* Feature 4 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                AI Coding Prompts
-              </h4>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Export contextual prompts tailored for Claude Code, Cursor, and Copilot with verified props and installation commands.
-              </p>
+            <div className="p-5 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.12)] hover:shadow-[0_0_25px_rgba(191,219,254,0.22)] transition-all">
+              <h4 className="font-medium text-[var(--text-primary)]">AI Prompts</h4>
+              <p className="mt-2 text-[14px] text-[var(--text-muted)]">Contextual prompts for Cursor, Claude Code, and Copilot.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Free vs Premium Section */}
-      <section className="py-20 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Community & Enterprise Tiers
-            </h3>
-            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-              Clear boundaries between open components and enterprise-grade building blocks.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Free Tier Card */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-xs">
-              <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 mb-4">
-                Free Community Tier
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 dark:text-white">
-                Open Access Components
-              </h4>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                Core design building blocks accessible to all developers without an account.
-              </p>
-              <ul className="mt-6 space-y-3 text-xs text-slate-600 dark:text-slate-300">
-                <li className="flex items-center gap-2">
-                  <span className="text-emerald-500 font-bold">&#10003;</span>
-                  <span>Unrestricted component preview and fixture inspect</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-emerald-500 font-bold">&#10003;</span>
-                  <span>Full source code copy and download</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-emerald-500 font-bold">&#10003;</span>
-                  <span>CLI installation without developer token</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-emerald-500 font-bold">&#10003;</span>
-                  <span>AI agent integration prompt export</span>
-                </li>
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-8 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.08)]">
+              <div className="inline-block px-2 py-1 text-xs font-medium text-[var(--success)] bg-green-900/10 border border-green-900/20 mb-4 rounded">Community</div>
+              <h4 className="text-lg font-semibold text-[var(--text-primary)]">Open Access Components</h4>
+              <p className="mt-2 text-[14px] text-[var(--text-muted)]">Core design building blocks accessible to all developers.</p>
+              <ul className="mt-6 space-y-3 text-[14px] text-[var(--text-secondary)]">
+                <li>• Unrestricted component preview</li>
+                <li>• Full source code copy</li>
+                <li>• CLI installation</li>
               </ul>
-              <div className="mt-8">
-                <Link
-                  href="/components"
-                  className="block text-center py-2.5 px-4 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                >
-                  Explore Free Components
-                </Link>
+            </div>
+            <div className="relative overflow-hidden p-8 border border-zinc-800 bg-zinc-950 rounded-2xl shadow-[inset_0_0_35px_rgba(191,219,254,0.12),inset_0_1px_0_0_rgba(191,219,254,0.35)]">
+              {/* Inner ambient light gradient */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(191,219,254,0.14),transparent_65%)] pointer-events-none" />
+              {/* Inner top gloss line */}
+              <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-blue-200/50 to-transparent pointer-events-none" />
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-blue-100 bg-blue-500/15 border border-blue-300/30 mb-4 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-200 animate-pulse" />
+                  Premium
+                </div>
+                <h4 className="text-lg font-semibold text-zinc-100 flex items-center gap-2">
+                  Enterprise Components
+                </h4>
+                <p className="mt-2 text-[14px] text-zinc-400">Advanced pipelines and interactive enterprise widgets.</p>
+                <ul className="mt-6 space-y-3 text-[14px] text-zinc-300">
+                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Complex drag-and-drop structures</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Authenticated CLI downloads</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Enterprise AI agent instructions</li>
+                </ul>
+                <div className="mt-8">
+                  <Link href="/login" className="inline-flex items-center gap-1 text-[14px] text-blue-200 hover:text-white font-medium transition-colors hover:underline">
+                    Sign In with Customer Account &rarr;
+                  </Link>
+                </div>
               </div>
             </div>
-
-            {/* Premium Tier Card */}
-            <div className="rounded-2xl border-2 border-amber-300 dark:border-amber-700 bg-gradient-to-b from-amber-50/40 via-white to-white dark:from-amber-950/20 dark:via-slate-900 dark:to-slate-900 p-8 shadow-sm relative">
-              <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                Premium Developer Tier
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 dark:text-white">
-                Enterprise CRM Components
-              </h4>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                Advanced pipelines, interactive kanban boards, and enterprise widgets.
-              </p>
-              <ul className="mt-6 space-y-3 text-xs text-slate-600 dark:text-slate-300">
-                <li className="flex items-center gap-2">
-                  <span className="text-amber-500 font-bold">&#10003;</span>
-                  <span>Complex drag-and-drop opportunity pipelines</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-amber-500 font-bold">&#10003;</span>
-                  <span>Production-tested CRM metrics and token sets</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-amber-500 font-bold">&#10003;</span>
-                  <span>Authenticated CLI downloads via developer token</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-amber-500 font-bold">&#10003;</span>
-                  <span>Enterprise AI agent orchestration instructions</span>
-                </li>
-              </ul>
-              <div className="mt-8">
-                <Link
-                  href="/login"
-                  className="block text-center py-2.5 px-4 rounded-xl text-sm font-semibold text-white bg-amber-600 hover:bg-amber-700 shadow-sm transition-colors"
-                >
-                  Sign In with Customer Account
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Ready to Build CTA */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h3 className="text-2xl sm:text-3xl font-bold">
-            Start Building with Tech Inject UI Today
-          </h3>
-          <p className="mt-3 text-blue-100 text-sm max-w-xl mx-auto">
-            Browse our dynamically updated catalogue, inspect live fixtures, and install atomic UI components into your codebase in seconds.
-          </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <Link
-              href="/components"
-              className="px-6 py-3 rounded-xl bg-white text-blue-600 font-bold text-sm shadow-sm hover:bg-blue-50 transition-colors"
-            >
-              Browse Public Catalogue
-            </Link>
           </div>
         </div>
       </section>

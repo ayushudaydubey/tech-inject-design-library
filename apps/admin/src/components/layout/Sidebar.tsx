@@ -58,27 +58,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-xs md:hidden"
           aria-hidden="true"
         />
       )}
 
       <aside
-        className={`fixed md:sticky top-16 z-40 h-[calc(100vh-4rem)] w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 ${
+        className={`fixed md:sticky top-14 z-40 h-[calc(100vh-3.5rem)] w-60 flex-shrink-0 border-r border-zinc-800 bg-zinc-900 p-3.5 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } ${className}`}
         aria-label="Admin Navigation Sidebar"
       >
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Quick Create Button */}
           <div>
             <Link
               href="/dashboard/components/new"
               onClick={onClose}
-              className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-xs transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-2 px-3.5 rounded-md bg-blue-200 hover:bg-blue-100 text-zinc-900 font-medium text-xs transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
               <span>Create Component</span>
             </Link>
@@ -93,13 +93,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
-                  className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
+                  className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors border ${
                     active
-                      ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white"
+                      ? "bg-zinc-800 text-zinc-100 border-zinc-700"
+                      : "text-zinc-400 hover:bg-zinc-850 hover:text-zinc-200 border-transparent"
                   }`}
                 >
-                  <span className={active ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}>
+                  <span className={active ? "text-blue-200" : "text-zinc-400"}>
                     {item.icon}
                   </span>
                   <span>{item.label}</span>
@@ -110,8 +110,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Console Footnote */}
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 space-y-1">
-          <div className="font-semibold text-slate-600 dark:text-slate-300">
+        <div className="pt-3 border-t border-zinc-800 text-[11px] text-zinc-400 space-y-0.5">
+          <div className="font-medium text-zinc-300">
             Tech Inject Admin v1.0
           </div>
           <div>Role: System Administrator</div>

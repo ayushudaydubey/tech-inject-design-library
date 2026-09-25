@@ -1,10 +1,23 @@
 export type ComponentAccessType = "free" | "premium";
 export type ComponentStatus = "draft" | "published";
 
+export type SourceFileLanguage =
+  | "typescript"
+  | "typescriptreact"
+  | "javascript"
+  | "javascriptreact"
+  | "css"
+  | "scss"
+  | "json"
+  | "markdown"
+  | "plaintext";
+
 export interface ComponentFile {
   filename: string;
+  path?: string;
   content: string;
   fileType: string;
+  language?: SourceFileLanguage;
 }
 
 export interface ComponentInstallInfo {
@@ -61,9 +74,25 @@ export interface CreateComponentInput {
 
 export type UpdateComponentInput = Partial<CreateComponentInput>;
 
+export interface DetailedValidationError {
+  file?: string;
+  line?: number;
+  column?: number;
+  message: string;
+  type?: "error" | "warning";
+}
+
+export interface ValidationCheck {
+  name: string;
+  passed: boolean;
+  message?: string;
+}
+
 export interface ValidationResult {
   isValid: boolean;
   errors: string[];
+  detailedErrors?: DetailedValidationError[];
+  checks?: ValidationCheck[];
 }
 
 export interface AdminPreviewData {

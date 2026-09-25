@@ -7,13 +7,13 @@ import { AccountStatus } from "../../components/auth/AccountStatus";
 export default function AccountPage() {
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 flex-1">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-1">
       {/* Header */}
-      <div className="pb-6 border-b border-slate-200 dark:border-slate-800">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+      <div className="pb-5 border-b border-zinc-800">
+        <h1 className="text-xl font-semibold tracking-tight text-zinc-100">
           Customer Account & Security
         </h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-xs text-zinc-400">
           Manage your session, view current access tier, and verify developer permissions.
         </p>
       </div>
@@ -22,44 +22,44 @@ export default function AccountPage() {
       <AccountStatus />
 
       {/* Access Permissions Summary */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-4">
-        <h3 className="text-base font-bold text-slate-900 dark:text-white">
+      <div className="rounded-lg border border-zinc-700/60 bg-zinc-800 p-5 space-y-3.5">
+        <h3 className="text-sm font-semibold text-zinc-100">
           Access Permissions Matrix
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
-            <thead className="border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold uppercase">
+            <thead className="border-b border-zinc-700/60 text-zinc-400 font-medium text-[11px] uppercase tracking-wider">
               <tr>
                 <th className="py-2.5 pr-4">Feature</th>
                 <th className="py-2.5 px-4">Free Tier</th>
                 <th className="py-2.5 pl-4">Premium Tier</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+            <tbody className="divide-y divide-zinc-700/50 text-zinc-300">
               <tr>
-                <td className="py-2.5 pr-4 font-medium">Public Catalogue Discovery</td>
-                <td className="py-2.5 px-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Granted</td>
-                <td className="py-2.5 pl-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Granted</td>
+                <td className="py-2.5 pr-4 font-normal text-zinc-200">Public Catalogue Discovery</td>
+                <td className="py-2.5 px-4 text-green-300 font-medium">&#10003; Granted</td>
+                <td className="py-2.5 pl-4 text-green-300 font-medium">&#10003; Granted</td>
               </tr>
               <tr>
-                <td className="py-2.5 pr-4 font-medium">Free Component Source & Install</td>
-                <td className="py-2.5 px-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Granted</td>
-                <td className="py-2.5 pl-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Granted</td>
+                <td className="py-2.5 pr-4 font-normal text-zinc-200">Free Component Source & Install</td>
+                <td className="py-2.5 px-4 text-green-300 font-medium">&#10003; Granted</td>
+                <td className="py-2.5 pl-4 text-green-300 font-medium">&#10003; Granted</td>
               </tr>
               <tr>
-                <td className="py-2.5 pr-4 font-medium">Premium CRM Kanban & Pipelines</td>
-                <td className="py-2.5 px-4 text-rose-500 font-semibold">&#10007; Locked</td>
-                <td className="py-2.5 pl-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Unlocked</td>
+                <td className="py-2.5 pr-4 font-normal text-zinc-200">Premium CRM Kanban & Pipelines</td>
+                <td className="py-2.5 px-4 text-red-400 font-medium">&#10007; Locked</td>
+                <td className="py-2.5 pl-4 text-green-300 font-medium">&#10003; Unlocked</td>
               </tr>
               <tr>
-                <td className="py-2.5 pr-4 font-medium">Authenticated CLI Add (<code className="font-mono">--auth</code>)</td>
-                <td className="py-2.5 px-4 text-rose-500 font-semibold">&#10007; Locked</td>
-                <td className="py-2.5 pl-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Unlocked</td>
+                <td className="py-2.5 pr-4 font-normal text-zinc-200">Authenticated CLI Add (<code className="font-mono text-[11px] bg-zinc-900 border border-zinc-700 px-1 py-0.5 rounded text-zinc-300">--auth</code>)</td>
+                <td className="py-2.5 px-4 text-red-400 font-medium">&#10007; Locked</td>
+                <td className="py-2.5 pl-4 text-green-300 font-medium">&#10003; Unlocked</td>
               </tr>
               <tr>
-                <td className="py-2.5 pr-4 font-medium">Enterprise AI Coding Prompts</td>
-                <td className="py-2.5 px-4 text-rose-500 font-semibold">&#10007; Locked</td>
-                <td className="py-2.5 pl-4 text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Unlocked</td>
+                <td className="py-2.5 pr-4 font-normal text-zinc-200">Enterprise AI Coding Prompts</td>
+                <td className="py-2.5 px-4 text-red-400 font-medium">&#10007; Locked</td>
+                <td className="py-2.5 pl-4 text-green-300 font-medium">&#10003; Unlocked</td>
               </tr>
             </tbody>
           </table>
@@ -67,16 +67,16 @@ export default function AccountPage() {
       </div>
 
       {/* Useful Links */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-200 dark:border-slate-800 text-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-zinc-800 text-xs">
         <Link
           href="/components"
-          className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+          className="text-blue-200 hover:text-blue-100 font-medium"
         >
           &larr; Return to Components Catalogue
         </Link>
         <Link
           href="/get-started"
-          className="text-slate-500 hover:text-slate-900 dark:hover:text-white"
+          className="text-zinc-400 hover:text-zinc-200 transition-colors"
         >
           View CLI Setup Guide
         </Link>
