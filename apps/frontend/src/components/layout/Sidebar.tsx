@@ -123,7 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside
-      className={`w-full h-full flex-shrink-0 flex flex-col border-r border-zinc-800 bg-zinc-900 px-3 py-2.5 select-none ${className}`}
+      className={`w-full h-full flex-shrink-0 flex flex-col border-r border-zinc-800 bg-zinc-950 px-3 py-2.5 select-none ${className}`}
       aria-label="Component Documentation Navigation"
     >
       {/* Sidebar Header & Compact Search */}

@@ -113,9 +113,9 @@ export const CatalogueShell: React.FC<CatalogueShellProps> = ({ children }) => {
   }, [isResizing, sidebarWidth]);
 
   return (
-    <div className="flex-1 flex flex-col min-h-[calc(100vh-3.5rem)] w-full">
+    <div className="flex-1 flex flex-col min-h-[calc(100vh-3.75rem)] w-full">
       {/* Mobile / Tablet Header Bar (< lg) */}
-      <div className="lg:hidden sticky top-14 z-30 flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+      <div className="lg:hidden sticky top-15 z-30 flex items-center justify-between px-4 py-2 bg-zinc-950 border-b border-zinc-800">
         <button
           type="button"
           onClick={() => setMobileDrawerOpen(true)}
@@ -158,7 +158,7 @@ export const CatalogueShell: React.FC<CatalogueShellProps> = ({ children }) => {
           className="hidden lg:block relative flex-shrink-0"
           style={{ width: `${sidebarWidth}px` }}
         >
-          <div className="sticky top-14 h-[calc(100vh-3.5rem)] w-full">
+          <div className="sticky top-15 h-[calc(100vh-3.75rem)] w-full">
             <Sidebar className="h-full border-r border-zinc-800" />
           </div>
 

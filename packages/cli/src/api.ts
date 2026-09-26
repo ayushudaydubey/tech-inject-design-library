@@ -7,18 +7,24 @@ import {
 } from "./types";
 
 /**
+ * Production API base URL for Tech Inject Design Library.
+ * This is the default backend used by all normal CLI operations.
+ */
+export const PRODUCTION_API_URL = "https://tech-inject-design-library.onrender.com/api";
+
+/**
  * Resolves the backend API base URL in order of precedence:
- * 1. CLI flag --api-url
+ * 1. CLI flag --api-url  (developer/testing override only)
  * 2. Environment variable TECH_INJECT_API_URL
- * 3. Environment variable NEXT_PUBLIC_API_URL
- * 4. Localhost fallback http://localhost:5000/api
+ * 3. Production default: https://tech-inject-design-library.onrender.com/api
+ *
+ * Normal users do NOT need to set any of these options.
  */
 export function resolveApiUrl(cliOptionUrl?: string): string {
   const url =
     cliOptionUrl ||
     process.env.TECH_INJECT_API_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    "http://localhost:5000/api";
+    PRODUCTION_API_URL;
 
   return url.replace(/\/+$/, "");
 }
@@ -63,6 +69,21 @@ export function writeStoredToken(token: string): void {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`Warning: Could not save credentials to ${configPath}: ${msg}`);
+  }
+}
+
+/**
+ * Removes stored auth token from ~/.techinjectrc (logout).
+ */
+export function clearStoredToken(): void {
+  const configPath = getConfigFilePath();
+  try {
+    if (fs.existsSync(configPath)) {
+      fs.unlinkSync(configPath);
+    }
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`Warning: Could not remove credentials from ${configPath}: ${msg}`);
   }
 }
 
@@ -137,16 +158,13 @@ export async function fetchComponentDownload(
   if (!response.ok) {
     if (response.status === 401) {
       throw new Error(
-        `Authentication is required to install this component.\n` +
-          `Run: npx tech-inject-ui add ${slug} --token <your-token>\n` +
-          `Or set the TECH_INJECT_AUTH_TOKEN environment variable.`
+        `PREMIUM_AUTH_REQUIRED:${slug}`
       );
     }
 
     if (response.status === 403) {
       throw new Error(
-        `Access denied: "${slug}" is a premium component requiring an active premium subscription.\n` +
-          `Your current account credentials do not have permission to download this component.`
+        `PREMIUM_ACCESS_DENIED:${slug}`
       );
     }
 

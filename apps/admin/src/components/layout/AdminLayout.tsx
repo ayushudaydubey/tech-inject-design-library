@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
+import { Footer } from "./Footer";
 import { useAdminSession } from "../../hooks/useAdminAuth";
 import { LoadingState } from "../common/LoadingState";
 
@@ -31,7 +32,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-900 text-zinc-100">
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-zinc-100">
         <LoadingState title="Authenticating admin session..." />
       </div>
     );
@@ -42,7 +43,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-900 text-zinc-100">
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100">
       <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex-1 flex w-full">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -50,6 +51,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           {children}
         </main>
       </div>
+      <Footer />
     </div>
   );
 };

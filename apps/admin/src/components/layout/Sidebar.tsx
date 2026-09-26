@@ -64,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed md:sticky top-14 z-40 h-[calc(100vh-3.5rem)] w-60 flex-shrink-0 border-r border-zinc-800 bg-zinc-900 p-3.5 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 ${
+        className={`fixed md:sticky top-15 z-30 h-[calc(100vh-3.75rem)] w-60 flex-shrink-0 border-r border-zinc-800/80 bg-zinc-950 p-3.5 flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } ${className}`}
         aria-label="Admin Navigation Sidebar"

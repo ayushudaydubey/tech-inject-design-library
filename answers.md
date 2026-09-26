@@ -1,50 +1,43 @@
-# Required Written Answers: Tech Inject Design Library
+# Tech Inject Design Library — answers.md
 
-### 1. Reference Analysis
-**How did you identify reusable components, variants and shared theme tokens? Explain one boundary you chose and how you verified the recreation against the reference.**
+## 1. Reference analysis
 
-We analyzed the reference CRM interface to isolate modular presentation patterns from domain business logic, identifying atomic metric cards, pipeline stages, and interactive status badges as primary candidates. For the boundary between `SalesMetricCard` and `PipelineKanbanBoard`, we treated individual KPI widgets as self-contained atomic elements with typed trend variants (`'up' | 'down' | 'neutral'`), while encapsulating complex stage groupings into a dedicated pipeline board. Theme tokens (radii, slate border colors, emerald/rose trend palettes) were extracted directly into structured CSS files (`themeFiles`) attached to each component model to ensure visual parity without hardcoded styling.
+I used the Sales CRM reference as the visual source of truth and grouped repeated UI patterns into reusable components instead of rebuilding CRM business screens. I focused on reusable patterns such as buttons, inputs, cards, data/feedback states, navigation and CRM-style data components, with variants and states handled inside the component where appropriate. I also used shared theme values for typography, spacing, borders, radii and colours.
 
----
+For verification, I compared the recreated components and catalogue UI against the reference at similar sizes and checked the important interaction states such as hover, focus, selected, disabled, loading and error states. The public catalogue uses its own product identity while keeping the component theme based on the CRM reference.
 
-### 2. Architecture and Clean Code
-**Why did you choose this stack and separation of responsibilities? Show one practical SOLID/DRY decision and one abstraction or feature you avoided under KISS/YAGNI.**
+## 2. Architecture and clean code
 
-We selected Express + TypeScript with Mongoose and Zod because it provides strict compile-time and runtime type safety with minimal runtime overhead. A practical Single Responsibility / DRY decision was centralizing access checks into [AccessService](file:///apps/backend/src/services/accessService.ts): both public detail endpoints and protected sub-resources (`/source`, `/preview`, `/install`, `/agent-prompt`) delegate authorization to a single `assertAccess()` method rather than repeating checks in controllers. Under KISS/YAGNI, we intentionally avoided an external object storage service (such as S3) and complex microservice event buses, storing structured component files directly in MongoDB documents to guarantee atomic updates and eliminate file synchronization bugs.
+I used a TurboRepo monorepo with separate Next.js/TypeScript public and admin apps, an Express/TypeScript backend, MongoDB for persistent records, and a separate CLI package. The public app is responsible for catalogue and documentation UX, the admin app handles publishing and premium management, and the backend remains the source of truth for authentication, publication and premium access.
 
----
+A practical DRY decision was keeping component metadata, source files, preview data, dependencies and agent prompts in the same published component record so preview, copy, installer and agent integration use the same versioned content. I intentionally avoided building a general-purpose code editor, payment system, marketplace, multi-framework installer or unnecessary role system because those were outside the assignment scope.
 
-### 3. Publishing Consistency
-**How do preview, copied code, installation and agent instructions stay on the same published version? What happens when an update fails or a component is unpublished?**
+## 3. Publishing consistency
 
-Preview, copyable source, installer instructions, and AI agent prompts are stored as coordinated fields inside the single persistent [Component](file:///apps/backend/src/models/Component.ts) document rather than disparate files or independent databases. All protected endpoints resolve the exact same document record by slug, preventing version drift across distribution channels. If an update fails validation (via [AdminService.validateComponent](file:///apps/backend/src/services/adminService.ts#L170)), the document remains unchanged; when unpublished, the component transitions to `status: "draft"`, which immediately causes public catalogue queries and direct sub-resource requests to return 404.
+A published component stores its metadata, source/supporting files, preview/example data, dependencies and integration information together. The public preview, copied source, CLI installer and AI-agent prompt are generated from that published component data rather than separate hardcoded component implementations.
 
----
+Drafts remain private until published. When a component is unpublished, it is removed from public discovery and subsequent protected source/installation requests are blocked, while already copied code is not remotely removed.
 
-### 4. Security
-**What could go wrong when previewing uploaded code, calling admin APIs or installing files into another project? Which protections did you implement and test, and what limitations remain?**
+## 4. Security
 
-Executing uploaded code or writing files directly to web-accessible static directories risks remote code execution (RCE) and code leakage. We enforced `multer.memoryStorage()`, runtime file extension whitelisting (`.tsx`, `.ts`, `.jsx`, `.js`, `.css`, `.json`, `.md`), a 5MB size ceiling, and strictly prevented any `eval()` or server-side execution of uploaded code. Admin endpoints enforce server-verified JWTs checked against the database user's `role === "admin"`. The primary limitation is that revocation cannot undo code that a developer has already copied or downloaded to their local machine prior to revocation.
+The main risks were exposing premium source files, allowing unauthorized admin writes, executing uploaded component code, or allowing the CLI to write outside the consumer project or silently overwrite files. I implemented server-side authentication/authorization, current premium checks, protected component APIs, upload validation, restricted preview handling, safe path checks and overwrite protection in the installer.
 
----
+Premium access is checked on protected preview/source/download/install/agent requests instead of relying only on hidden UI buttons. The installer also checks dependency compatibility and stops on conflicting existing files rather than silently overwriting them. A remaining limitation is that revocation cannot remove code that a customer already copied or installed, which is expected by the assignment.
 
-### 5. AI Ownership
-**Which AI suggestion or assumption did you challenge, and what evidence supported your conclusion? Show how you checked that copied code, the install command and the agent prompt actually worked in consumer projects—not just inside the catalogue.**
+## 5. AI ownership
 
-We challenged the initial AI assumption of placing the `isPremium` flag directly into the JWT payload and trusting it on protected routes. Because an administrator must be able to revoke premium access at any time, trusting a stateless JWT would allow revoked users to access premium code until token expiration (up to 15 minutes or 7 days). We corrected this by requiring `authenticate` to query the live MongoDB user record on every access check, verifying that subsequent requests fail immediately upon revocation.
+AI was used extensively for planning, implementation, debugging, preview architecture, CLI work and testing, but I reviewed the generated changes against the assignment requirements and tested the important flows myself. One important issue I challenged was generic component preview behavior: early implementations could show fixture data or fail when component props were incomplete, so I changed the preview approach to normalize fixture data and resolve component source/styles/dependencies generically instead of adding component-specific switches.
 
-To verify that copied code, the install command, and the agent prompt actually worked in real consumer environments, we initialized a clean standalone React + TypeScript project with strict configuration (`cli-test/`). We executed the CLI commands (`npx tech-inject-ui add sales-metric-card` and `npx tech-inject-ui add data-table --token <token>`), verifying that self-contained component source, types, and CSS tokens were created under `src/components/`, verified dependencies were installed, compiled without errors using `tsc --noEmit`, and confirmed the component rendered successfully outside the catalogue.
+I also tested the AI-agent prompt in a clean React + TypeScript consumer project and verified that the prompt could be copied from the catalogue and used to integrate a component. The CLI was tested separately with free, premium and unauthorized access cases.
 
----
+## 6. Production ownership
 
-### 6. Production Ownership
-**What checks convinced you the deployed project was ready? If a newly published component breaks after release, what would you inspect first, how would you restore service without losing data, and what would you communicate to the team?**
+I checked the deployed public frontend, admin dashboard and backend separately, including authentication, component discovery, premium access and installer/agent integration paths. The deployed stack uses persistent backend data and environment-based configuration, and the production CLI uses the deployed backend by default.
 
-Readiness was validated through strict TypeScript compilation (`npx tsc --noEmit`), automated testing of all 25 access scenarios, runtime Zod validation, and live health endpoint checks (`/api/health`). If a newly published component breaks, we would inspect the backend error logs and MongoDB component record first, immediately call `POST /api/admin/components/:id/unpublish` to roll back the public release without data loss, and notify the team that the component was moved back to draft while reviewing its props and dependencies.
+If a newly published component breaks, I would first inspect the component record, source/supporting files, preview data, dependency declarations and backend logs, then unpublish the affected component to stop new retrieval/install requests. I would restore the last known-good published content or deployment without deleting persistent component/customer data and communicate the affected component, current access state and recovery status to the team.
 
----
+## 7. Premium access
 
-### 7. Premium Access
-**How did you model account access separately from component publication and admin permissions? Show how a free or revoked customer is blocked from premium code through previews, direct URLs, CLI and agent integration, and explain what revocation cannot undo.**
+Customer access is modeled separately from component publication and admin permissions. A component can be published as premium while a customer can independently be free or premium; only the backend can grant or revoke premium access.
 
-Account access (`User.isPremium: boolean`), admin permissions (`User.role: "admin"`), and publication state (`Component.status: "published"`) are maintained as independent fields in the database. When a customer's premium status is revoked via `POST /api/admin/customers/:id/revoke-premium`, their next request to `/api/components/:slug/source`, `/preview`, `/install`, or `/agent-prompt` hits [AccessService.assertAccess](file:///apps/backend/src/services/accessService.ts#L33) which queries MongoDB and returns an immediate 403 Forbidden. Revocation successfully prevents all future API, CLI, and agent fetches, though it cannot erase files already copied into a developer's local repository.
+Signed-out and free customers are blocked from protected premium source/install/agent requests, while premium customers can access them. The CLI uses authenticated login and the backend verifies current premium access before installation. Revocation blocks subsequent protected requests, but it cannot remove source code that was already copied or installed by the customer.

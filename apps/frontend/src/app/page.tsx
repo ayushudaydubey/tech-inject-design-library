@@ -11,8 +11,10 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 text-[13px] font-medium text-[var(--accent-blue)] bg-blue-900/10 border border-blue-900/20 mb-8 rounded">
-            <span>Tech Inject Design Library &bull; 1.0</span>
+          <div className="mb-8">
+            <span className="text-[13px] font-medium text-blue-200">
+              Tech Inject Design Library &bull; 1.0
+            </span>
           </div>
 
           {/* Headline */}
@@ -190,7 +192,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-8 border border-zinc-800/80 bg-zinc-950 rounded-xl shadow-[0_0_20px_rgba(191,219,254,0.08)]">
-              <div className="inline-block px-2 py-1 text-xs font-medium text-[var(--success)] bg-green-900/10 border border-green-900/20 mb-4 rounded">Community</div>
+              <div className="text-xs font-medium text-blue-200 mb-4">Community</div>
               <h4 className="text-lg font-semibold text-[var(--text-primary)]">Open Access Components</h4>
               <p className="mt-2 text-[14px] text-[var(--text-muted)]">Core design building blocks accessible to all developers.</p>
               <ul className="mt-6 space-y-3 text-[14px] text-[var(--text-secondary)]">
@@ -206,8 +208,7 @@ export default function HomePage() {
               <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-blue-200/50 to-transparent pointer-events-none" />
 
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-blue-100 bg-blue-500/15 border border-blue-300/30 mb-4 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-200 animate-pulse" />
+                <div className="text-xs font-medium text-blue-200 mb-4">
                   Premium
                 </div>
                 <h4 className="text-lg font-semibold text-zinc-100 flex items-center gap-2">
@@ -215,9 +216,9 @@ export default function HomePage() {
                 </h4>
                 <p className="mt-2 text-[14px] text-zinc-400">Advanced pipelines and interactive enterprise widgets.</p>
                 <ul className="mt-6 space-y-3 text-[14px] text-zinc-300">
-                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Complex drag-and-drop structures</li>
-                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Authenticated CLI downloads</li>
-                  <li className="flex items-center gap-2"><span className="text-blue-300">✦</span> Enterprise AI agent instructions</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-200">•</span> Complex drag-and-drop structures</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-200">•</span> Authenticated CLI downloads</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-200">•</span> Enterprise AI agent instructions</li>
                 </ul>
                 <div className="mt-8">
                   <Link href="/login" className="inline-flex items-center gap-1 text-[14px] text-blue-200 hover:text-white font-medium transition-colors hover:underline">
